@@ -16,11 +16,13 @@ public class Boot {
 
     public static void main(String[] args) throws Exception {
         Configuration.setup();
-        ResourceLoader resources = new ResourceLoader("./rs/macro/res/");
-        InputStream canvas = resources.get("lib/CanvasHack.jar");
         File canvasJar = new File(Configuration.LIBRARIES, "CanvasHack.jar");
-        try (FileOutputStream localCanvas = new FileOutputStream(canvasJar)) {
-            Streams.transfer(canvas, localCanvas);
+        if (!canvasJar.exists()) {
+            ResourceLoader resources = new ResourceLoader("./rs/macro/res/");
+            InputStream canvas = resources.get("lib/CanvasHack.jar");
+            try (FileOutputStream localCanvas = new FileOutputStream(canvasJar)) {
+                Streams.transfer(canvas, localCanvas);
+            }
         }
         new Executor(Boot.class, RSMacro.class, Configuration.APPLICATION_NAME)
                 .flag("-Dsun.java2d.d3d=false")
