@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 public class PixelTask extends LoopTask {
 
     private BufferedImage image;
-    private byte[] pixels;
+    private int[] pixels;
     private int delay = 100;
     private PixelOperator operator = new PixelOperator();
 

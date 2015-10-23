@@ -11,10 +11,10 @@ import java.awt.image.BufferedImage;
 public class PixelOperator {
 
     private BufferedImage image;
-    private byte[] pixels;
+    private int[] pixels;
     private PixelBuilder builder;
 
-    public void setData(BufferedImage image, byte[] pixels) {
+    public void setData(BufferedImage image, int[] pixels) {
         this.image = image;
         this.pixels = pixels;
     }
@@ -23,7 +23,7 @@ public class PixelOperator {
         return image;
     }
 
-    public byte[] pixels() {
+    public int[] pixels() {
         return pixels;
     }
 

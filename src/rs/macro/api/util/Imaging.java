@@ -4,9 +4,7 @@ import rs.macro.api.util.filter.TriFilter;
 import rs.macro.api.util.fx.Colors;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
 import java.util.stream.Stream;
 
 /**
@@ -43,16 +41,15 @@ public class Imaging {
         return compressed;
     }
 
-    public static Stream<Point> query(BufferedImage image, byte[] pixels,
+    public static Stream<Point> query(BufferedImage image, int[] pixels,
                                       TriFilter<Integer, Integer, Integer> pixelFilter) {
         int w = image.getWidth(), h = image.getHeight();
-        int[] compressed = compressPixelBytes(image, pixels);
         return Stream.iterate(0, n -> ++n)
-                .limit(compressed.length)
+                .limit(pixels.length)
                 .filter(i -> {
                     int x = i % w;
                     int y = (i / w) % h;
-                    int argb = compressed[i];
+                    int argb = pixels[i];
                     return pixelFilter.accept(x, y, argb);
                 })
                 .map(i -> {
@@ -62,31 +59,47 @@ public class Imaging {
                 });
     }
 
-    public static byte[] pixelsFor(BufferedImage image) {
+    @SuppressWarnings("unchecked")
+    public static int[] pixelsFor(BufferedImage image) {
         WritableRaster raster = image.getRaster();
-        DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
-        return buffer.getData();
+        byte[] pixelBytes = new byte[0];
+        int[] pixelInts = new int[0];
+        DataBuffer buffer = raster.getDataBuffer();
+        if (buffer instanceof DataBufferByte) {
+            pixelBytes = ((DataBufferByte) buffer).getData();
+        } else if (buffer instanceof DataBufferInt) {
+            pixelInts = ((DataBufferInt) buffer).getData();
+        }
+        if (pixelBytes.length > 0) {
+            pixelInts = compressPixelBytes(image, pixelBytes);
+        }
+        return pixelInts;
     }
 
-    public static int argbAt(BufferedImage image, byte[] pixels, int x, int y) {
+    public static int argbAt(BufferedImage image, int[] pixels, int x, int y) {
         if (image == null) {
             return Colors.BLACK;
         }
         try {
-            boolean hasAlphaChannel = image.getAlphaRaster() != null;
-            int width = image.getWidth();
-            int argb = 0;
-            if (hasAlphaChannel) {
-                argb += (((int) pixels[4 * (x + y * width)] & 0xff) << 24);
-            } else {
-                argb += -16777216;
-            }
-            argb += ((int) pixels[3 * (x + y * width)] & 0xff);
-            argb += (((int) pixels[1 + 3 * (x + y * width)] & 0xff) << 8);
-            argb += (((int) pixels[2 + 3 * (x + y * width)] & 0xff) << 16);
-            return argb;
+            return pixels[x + y * image.getWidth()];
         } catch (ArrayIndexOutOfBoundsException e) {
             return Colors.BLACK;
         }
+//        try {
+//            boolean hasAlphaChannel = image.getAlphaRaster() != null;
+//            int width = image.getWidth();
+//            int argb = 0;
+//            if (hasAlphaChannel) {
+//                argb += (((int) pixels[4 * (x + y * width)] & 0xff) << 24);
+//            } else {
+//                argb += -16777216;
+//            }
+//            argb += ((int) pixels[3 * (x + y * width)] & 0xff);
+//            argb += (((int) pixels[1 + 3 * (x + y * width)] & 0xff) << 8);
+//            argb += (((int) pixels[2 + 3 * (x + y * width)] & 0xff) << 16);
+//            return argb;
+//        } catch (ArrayIndexOutOfBoundsException e) {
+//            return Colors.BLACK;
+//        }
     }
 }
