@@ -85,21 +85,5 @@ public class Imaging {
         } catch (ArrayIndexOutOfBoundsException e) {
             return Colors.BLACK;
         }
-//        try {
-//            boolean hasAlphaChannel = image.getAlphaRaster() != null;
-//            int width = image.getWidth();
-//            int argb = 0;
-//            if (hasAlphaChannel) {
-//                argb += (((int) pixels[4 * (x + y * width)] & 0xff) << 24);
-//            } else {
-//                argb += -16777216;
-//            }
-//            argb += ((int) pixels[3 * (x + y * width)] & 0xff);
-//            argb += (((int) pixels[1 + 3 * (x + y * width)] & 0xff) << 8);
-//            argb += (((int) pixels[2 + 3 * (x + y * width)] & 0xff) << 16);
-//            return argb;
-//        } catch (ArrayIndexOutOfBoundsException e) {
-//            return Colors.BLACK;
-//        }
     }
 }
