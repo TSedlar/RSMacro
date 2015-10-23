@@ -32,8 +32,8 @@ public class Time {
 
     public static boolean waitFor(int timeout, int threshold,
                                   Condition condition) {
-        long future = System.nanoTime() + toNanos(timeout);
-        while (System.nanoTime() < future) {
+        long start = millis();
+        while (millis() - start < timeout) {
             if (condition.met()) {
                 return true;
             }

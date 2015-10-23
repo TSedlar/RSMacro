@@ -15,12 +15,16 @@ import java.awt.*;
 public class Bank {
 
     public static final PixelModel VIEWING_BANK = PixelModel.fromString("#FF981F/10 #FF981F/10/25/-1 #FF981F/10/83/0 #FF981F/10/118/-2 #FF981F/10/-147/-2");
+    public static final PixelModel VIEWING_PIN = PixelModel.fromString("#FFFF00/10 #FFFF00/10/-2/10 #FFFF00/10/15/5 #FFFF00/10/31/5 #FFFF00/10/46/10");
 
     public static BankModel model() {
         return RSMacro.instance().selector().dataSelector().bank();
     }
 
     public static boolean open() {
+        if (!Camera.setAngle(model().angle().value)) {
+            return false;
+        }
         Point center = Viewport.center();
         Point nearest = RuneScape.pixels().operator().builder()
                 .model(model().model()).query().sorted(
@@ -38,6 +42,13 @@ public class Bank {
         return RuneScape.pixels().operator().builder()
                 .bounds(22, 10, 319, 25)
                 .model(VIEWING_BANK)
+                .query().count() > 0;
+    }
+
+    public static boolean viewingPin() {
+        return RuneScape.pixels().operator().builder()
+                .bounds(425, 32, 67, 19)
+                .model(VIEWING_PIN)
                 .query().count() > 0;
     }
 }

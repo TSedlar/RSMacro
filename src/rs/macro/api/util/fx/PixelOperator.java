@@ -12,7 +12,6 @@ public class PixelOperator {
 
     private BufferedImage image;
     private int[] pixels;
-    private PixelBuilder builder;
 
     public void setData(BufferedImage image, int[] pixels) {
         this.image = image;
@@ -32,6 +31,6 @@ public class PixelOperator {
     }
 
     public PixelBuilder builder() {
-        return (builder != null ? builder.clear() : (builder = new PixelBuilder(this)));
+        return new PixelBuilder(this);
     }
 }

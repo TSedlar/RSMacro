@@ -19,7 +19,7 @@ public enum BankModel {
     LUNAR_ISLE,
     SEERS,
     VARROCK_WEST,
-    VARROCK_EAST(Angle.NORTH, "#716028/10 #5E4E16/10/20/-12 #716028/10/-5/-7"),
+    VARROCK_EAST(Angle.NORTH, "#5A4913/10 #5A4913/10/67/-2 #827B65/10/66/127 #5A4913/10/-51/2"),
     YANILLE;
 
     private final Angle angle;

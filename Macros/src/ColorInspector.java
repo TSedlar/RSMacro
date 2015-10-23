@@ -26,7 +26,7 @@ import java.util.List;
  * @author Tyler Sedlar
  * @since 4/30/2015
  */
-@Manifest(author = "Tyler", name = "Color Inspector", description = "Helps gather data for slaves",
+@Manifest(author = "Tyler", name = "Color Inspector", description = "Helps gather data for macros",
         banks = false)
 public class ColorInspector extends Macro implements Renderable, PixelListener {
 

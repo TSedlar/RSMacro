@@ -1,7 +1,12 @@
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
 import rs.macro.api.methods.Bank;
+import rs.macro.api.methods.Camera;
+import rs.macro.api.methods.Minimap;
+import rs.macro.api.methods.RuneScape;
+import rs.macro.api.methods.input.Keyboard;
 import rs.macro.api.util.Renderable;
+import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.MousePaint;
 import rs.macro.api.util.fx.PixelOperator;
 import rs.macro.api.util.fx.Text;
@@ -18,6 +23,7 @@ public class Test extends Macro implements Renderable, PixelListener {
 
     @Override
     public void atStart() {
+        Camera.setPitch(false);
     }
 
     @Override
@@ -43,7 +49,6 @@ public class Test extends Macro implements Renderable, PixelListener {
         MousePaint.drawMouseWaves(g, MOUSE_WAVE);
         MousePaint.drawTrail(g, MOUSE_TRAIL);
         MousePaint.drawOval(g, MOUSE_OUTER, MOUSE_INNER);
-        Text.drawRuneString(g, "BANK: " + (Bank.viewing() ? "T" : "F"), 10, 35, Color.GREEN);
     }
 
     @Override

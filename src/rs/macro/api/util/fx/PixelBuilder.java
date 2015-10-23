@@ -22,7 +22,7 @@ public class PixelBuilder {
 
     private int sx, sy, sw, sh;
     private final DualFilter<Integer, Integer> boundFilter =
-            (x, y) -> (x >= 0 && x < sx + sw && y >= 0 && y < sy + sh);
+            (x, y) -> (x >= sx && x < sx + sw && y >= sy && y < sy + sh);
     private Filter<Integer> rgbFilter;
     private DualFilter<Integer, Integer> locationFilter;
     private PixelModel model;
@@ -49,6 +49,10 @@ public class PixelBuilder {
         this.sw = w;
         this.sh = h;
         return this;
+    }
+
+    public PixelBuilder bounds(Rectangle bounds) {
+        return bounds(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     public PixelBuilder filter(Filter<Integer> rgbFilter) {
