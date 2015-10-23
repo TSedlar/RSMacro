@@ -24,7 +24,6 @@ public class Executor {
     private static final String XBOOT = "-Xbootclasspath/p:";
 
     private final List<String> flags = new ArrayList<>();
-    private final List<String> args = new ArrayList<>();
     private final List<String> libs = new ArrayList<>();
 
     private final Class<?> main, application;
@@ -65,7 +64,7 @@ public class Executor {
         builder.append(QUOTE);
         builder.append(Strings.cleanUTF8(jar.getAbsolutePath()));
         builder.append(QUOTE);
-        args.add(builder.toString());
+        flags.add(builder.toString());
         return this;
     }
 
@@ -97,14 +96,7 @@ public class Executor {
         }
         builder.append(SPACE);
         builder.append(application.getCanonicalName());
-        if (!args.isEmpty()) {
-            for (String arg : args) {
-                builder.append(SPACE);
-                builder.append(arg);
-            }
-        }
         String command = builder.toString();
-        System.out.println(command);
         Runtime runtime = Runtime.getRuntime();
         try {
             Process process;

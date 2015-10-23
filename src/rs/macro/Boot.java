@@ -23,6 +23,7 @@ public class Boot {
             Streams.transfer(canvas, localCanvas);
         }
         new Executor(Boot.class, RSMacro.class, Configuration.APPLICATION_NAME)
+                .flag("-Dsun.java2d.d3d=false")
                 .flag("-XX:SurvivorRatio=4")
                 .flag("-XX:+UseCompressedClassPointers")
                 .flag("-XX:+UseCompressedOops")
