@@ -5,6 +5,7 @@ import rs.macro.api.methods.Environment;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.Time;
 import rs.macro.internal.ext.EventDispatcher;
+import rs.macro.internal.random.RandomEvent;
 import rs.macro.internal.random.RandomHandler;
 import rs.macro.internal.random.event.BankPin;
 import rs.macro.internal.ui.MacroSelector;
@@ -109,14 +110,21 @@ public class RSMacro extends JFrame implements Runnable {
         setLocationRelativeTo(null);
         setVisible(true);
         GameCanvas.render = (g) -> {
-            Macro macro = MacroSelector.current();
-            if (macro != null && macro instanceof Renderable) {
-                ((Renderable) macro).render(g);
-            }
+            boolean random = false;
             if (randoms != null) {
-                randoms.events().stream()
-                        .filter(event -> event.solving() && event instanceof Renderable)
-                        .forEach(event -> ((Renderable) event).render(g));
+                for (RandomEvent event : randoms.events()) {
+                    if (event.solving()) {
+                        random = true;
+                        ((Renderable) event).render(g);
+                        randoms.render(g);
+                    }
+                }
+            }
+            if (!random) {
+                Macro macro = MacroSelector.current();
+                if (macro != null && macro instanceof Renderable) {
+                    ((Renderable) macro).render(g);
+                }
             }
         };
         while (GameCanvas.instance == null) {

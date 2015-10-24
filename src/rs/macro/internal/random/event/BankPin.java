@@ -16,12 +16,17 @@ import java.awt.*;
  * @author Tyler Sedlar
  * @since 10/23/15
  */
-@RandomManifest(name = "Bank Pin Solver", author = "Tyler", version = "1.0.0")
+@RandomManifest(name = "Bank Pin Solver", author = "Tyler Sedlar", version = "1.0.0")
 public class BankPin extends RandomEvent implements Renderable {
 
     private static final PixelModel QUESTION_MODEL = PixelModel.fromString("#FFFF00/5 #FFFF00/5/1/0 #FFFF00/5/2/0 #FFFF00/5/-1/1 #FFFF00/5/3/1 #FFFF00/5/-1/2 #FFFF00/5/3/2 #FFFF00/5/3/3 #FFFF00/5/2/4 #FFFF00/5/1/5 #FFFF00/5/0/6 #FFFF00/5/0/7 #FFFF00/5/0/9 #FFFF00/5/0/10");
 
     private static final Rectangle QUESTION_BOUNDS = new Rectangle(426, 31, 65, 20);
+
+    /**
+     * Bounds to move the mouse out of the way of number bound visibility.
+     */
+    private static final Rectangle OUT_BOUNDS = new Rectangle(412, 117, 70, 68);
 
     /**
      * Bounds of the pin numbers, 94x/72y pixels in between.
@@ -108,6 +113,8 @@ public class BankPin extends RandomEvent implements Renderable {
                     return Time.waitFor(5000, Bank::viewing);
                 }
             }
+        } else {
+            Mouse.move(OUT_BOUNDS);
         }
         return false;
     }

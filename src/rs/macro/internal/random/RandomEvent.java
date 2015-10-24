@@ -9,6 +9,7 @@ public abstract class RandomEvent {
     protected boolean solving = false;
 
     public abstract boolean activate();
+
     public abstract boolean solve();
 
     public boolean solving() {

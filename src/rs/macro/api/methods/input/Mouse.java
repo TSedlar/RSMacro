@@ -90,9 +90,7 @@ public class Mouse {
     }
 
     public static void click(Shape shape, boolean left) {
-        List<Point> points = Shapes.pointsFor(shape);
-        Point p = Random.nextElement(points);
-        click(p, left);
+        click(Random.nextElement(Shapes.pointsFor(shape)), left);
     }
 
     public static void scroll(boolean up, int clicks) {
@@ -117,5 +115,13 @@ public class Mouse {
         });
         target = null;
         path.clear();
+    }
+
+    public static void move(Point p) {
+        move(p.x, p.y);
+    }
+
+    public static void move(Shape shape) {
+        move(Random.nextElement(Shapes.pointsFor(shape)));
     }
 }

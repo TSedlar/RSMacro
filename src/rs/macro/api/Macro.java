@@ -3,7 +3,6 @@ package rs.macro.api;
 import rs.macro.api.methods.RuneScape;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.PixelOperator;
-import rs.macro.internal.random.RandomHandler;
 import rs.macro.internal.ui.MacroSelector;
 
 import java.awt.*;
