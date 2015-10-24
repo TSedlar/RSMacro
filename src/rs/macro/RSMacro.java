@@ -5,6 +5,8 @@ import rs.macro.api.methods.Environment;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.Time;
 import rs.macro.internal.ext.EventDispatcher;
+import rs.macro.internal.random.RandomHandler;
+import rs.macro.internal.random.event.BankPin;
 import rs.macro.internal.ui.MacroSelector;
 import rs.macro.internal.ui.Toolbar;
 import rs.macro.util.Configuration;
@@ -31,6 +33,7 @@ public class RSMacro extends JFrame implements Runnable {
     private final MacroSelector selector;
 
     private EventDispatcher dispatcher;
+    private RandomHandler randoms;
 
     private boolean isRunningMacro;
 
@@ -64,6 +67,15 @@ public class RSMacro extends JFrame implements Runnable {
         toolbar.macro.setState(isRunningMacro);
         Environment.setInput(isRunningMacro ? Environment.INPUT_KEYBOARD :
                 (Environment.INPUT_KEYBOARD | Environment.INPUT_MOUSE));
+        if (randoms == null) {
+            randoms = new RandomHandler();
+            randoms.submit(new BankPin());
+        }
+        if (isRunningMacro) {
+            randoms.start();
+        } else {
+            randoms.stop();
+        }
     }
 
     public boolean isRunningMacro() {
@@ -100,6 +112,11 @@ public class RSMacro extends JFrame implements Runnable {
             Macro macro = MacroSelector.current();
             if (macro != null && macro instanceof Renderable) {
                 ((Renderable) macro).render(g);
+            }
+            if (randoms != null) {
+                randoms.events().stream()
+                        .filter(event -> event.solving() && event instanceof Renderable)
+                        .forEach(event -> ((Renderable) event).render(g));
             }
         };
         while (GameCanvas.instance == null) {

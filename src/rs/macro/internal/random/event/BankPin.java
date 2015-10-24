@@ -1,11 +1,13 @@
-import rs.macro.api.Macro;
-import rs.macro.api.Manifest;
+package rs.macro.internal.random.event;
+
+import rs.macro.api.methods.Bank;
 import rs.macro.api.methods.RuneScape;
 import rs.macro.api.methods.input.Mouse;
-import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.model.PixelModel;
+import rs.macro.internal.CacheData;
+import rs.macro.internal.random.RandomEvent;
 
 import java.awt.*;
 
@@ -13,9 +15,7 @@ import java.awt.*;
  * @author Tyler Sedlar
  * @since 10/23/15
  */
-@Manifest(name = "BankPin", author = "Tyler", description = "Testing bank pin random",
-        banks = false)
-public class BankPin extends Macro implements Renderable {
+public class BankPin extends RandomEvent implements Renderable {
 
     private static final PixelModel QUESTION_MODEL = PixelModel.fromString("#FFFF00/5 #FFFF00/5/1/0 #FFFF00/5/2/0 #FFFF00/5/-1/1 #FFFF00/5/3/1 #FFFF00/5/-1/2 #FFFF00/5/3/2 #FFFF00/5/3/3 #FFFF00/5/2/4 #FFFF00/5/1/5 #FFFF00/5/0/6 #FFFF00/5/0/7 #FFFF00/5/0/9 #FFFF00/5/0/10");
 
@@ -85,21 +85,29 @@ public class BankPin extends Macro implements Renderable {
     }
 
     @Override
-    public int loop() {
+    public boolean activate() {
+        return Bank.viewingPin();
+    }
+
+    @Override
+    public boolean solve() {
         stage = stage();
-        String pin = "9200";
+        String pin = CacheData.pin();
+        if (pin == null) {
+            CacheData.parseLogin();
+            pin = CacheData.pin();
+        }
         int currentNumber = Character.getNumericValue(pin.charAt(stage));
         bounds = findNumberBounds(currentNumber);
         if (bounds != null) {
             Mouse.click(bounds, true);
             if (Time.waitFor(2500, () -> stage() != stage)) {
                 if (questions() == 0) {
-                    System.out.println("COMPLETE");
-                    return -1;
+                    return true;
                 }
             }
         }
-        return Random.nextInt(250, 500);
+        return false;
     }
 
     @Override

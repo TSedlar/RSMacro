@@ -3,6 +3,7 @@ package rs.macro.api;
 import rs.macro.api.methods.RuneScape;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.PixelOperator;
+import rs.macro.internal.random.RandomHandler;
 import rs.macro.internal.ui.MacroSelector;
 
 import java.awt.*;
@@ -17,6 +18,7 @@ public abstract class Macro extends Thread implements MouseListener,
 
     private boolean interrupted;
     private long startTime;
+    private boolean paused;
 
     public void atStart() {
     }
@@ -43,6 +45,10 @@ public abstract class Macro extends Thread implements MouseListener,
         return RuneScape.pixels().operator();
     }
 
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     @Override
     public void interrupt() {
         super.interrupt();
@@ -61,7 +67,16 @@ public abstract class Macro extends Thread implements MouseListener,
             if (Time.overdue()) {
                 break;
             }
-            int loop = loop();
+            if (paused) {
+                Time.sleep(50, 100);
+                continue;
+            }
+            int loop;
+            try {
+                loop = loop();
+            } catch (Exception e) {
+                break;
+            }
             if (loop < 0) {
                 break;
             }
