@@ -21,9 +21,6 @@ public class BankPin extends RandomEvent implements Renderable {
 
     private static final Rectangle QUESTION_BOUNDS = new Rectangle(426, 31, 65, 20);
 
-    private Rectangle bounds = null;
-    private int stage = -1;
-
     /**
      * Bounds of the pin numbers, 94x/72y pixels in between.
      * The last box is only 84x pixels in between.
@@ -59,6 +56,9 @@ public class BankPin extends RandomEvent implements Renderable {
             PixelModel.fromString("#FF7F00/5 #FF7F00/5/1/0 #FF7F00/5/2/0 #FF7F00/5/-1/1 #FF7F00/5/0/1 #FF7F00/5/2/1 #FF7F00/5/3/1 #FF7F00/5/-2/2 #FF7F00/5/-1/2 #FF7F00/5/3/2 #FF7F00/5/4/2 #FF7F00/5/-1/3 #FF7F00/5/0/3 #FF7F00/5/2/3 #FF7F00/5/3/3 #FF7F00/5/0/4 #FF7F00/5/1/4 #FF7F00/5/2/4 #FF7F00/5/-1/5 #FF7F00/5/0/5 #FF7F00/5/2/5 #FF7F00/5/3/5 #FF7F00/5/-2/6 #FF7F00/5/-1/6 #FF7F00/5/3/6 #FF7F00/5/4/6 #FF7F00/5/-2/7 #FF7F00/5/-1/7 #FF7F00/5/3/7 #FF7F00/5/4/7 #FF7F00/5/-1/8 #FF7F00/5/0/8 #FF7F00/5/2/8 #FF7F00/5/3/8 #FF7F00/5/0/9 #FF7F00/5/1/9 #FF7F00/5/2/9"),
             PixelModel.fromString("#FF7F00/5 #FF7F00/5/1/0 #FF7F00/5/2/0 #FF7F00/5/3/0 #FF7F00/5/4/0 #FF7F00/5/-1/1 #FF7F00/5/0/1 #FF7F00/5/4/1 #FF7F00/5/5/1 #FF7F00/5/-1/2 #FF7F00/5/0/2 #FF7F00/5/4/2 #FF7F00/5/5/2 #FF7F00/5/-1/3 #FF7F00/5/0/3 #FF7F00/5/4/3 #FF7F00/5/5/3 #FF7F00/5/0/4 #FF7F00/5/1/4 #FF7F00/5/4/4 #FF7F00/5/5/4 #FF7F00/5/1/5 #FF7F00/5/2/5 #FF7F00/5/3/5 #FF7F00/5/4/5 #FF7F00/5/5/5 #FF7F00/5/4/6 #FF7F00/5/5/6 #FF7F00/5/4/7 #FF7F00/5/5/7 #FF7F00/5/4/8 #FF7F00/5/5/8 #FF7F00/5/4/9 #FF7F00/5/5/9")
     };
+
+    private Rectangle bounds = null;
+    private int stage = -1;
 
     private Rectangle findNumberBounds(int number) {
         PixelModel model = NUMBER_MODELS[number];
