@@ -2,7 +2,9 @@ package rs.macro.api.methods.input;
 
 import rs.macro.RSMacro;
 import rs.macro.api.methods.RuneScape;
+import rs.macro.api.util.Random;
 import rs.macro.api.util.Time;
+import rs.macro.api.util.fx.Shapes;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -85,6 +87,12 @@ public class Mouse {
 
     public static void click(Point p, boolean left) {
         click(p.x, p.y, left);
+    }
+
+    public static void click(Shape shape, boolean left) {
+        List<Point> points = Shapes.pointsFor(shape);
+        Point p = Random.nextElement(points);
+        click(p, left);
     }
 
     public static void scroll(boolean up, int clicks) {

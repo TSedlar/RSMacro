@@ -97,8 +97,6 @@ public class RSMacro extends JFrame implements Runnable {
         setLocationRelativeTo(null);
         setVisible(true);
         GameCanvas.render = (g) -> {
-            g.setColor(Color.GREEN);
-            g.drawString("Test", 100, 100);
             Macro macro = MacroSelector.current();
             if (macro != null && macro instanceof Renderable) {
                 ((Renderable) macro).render(g);
