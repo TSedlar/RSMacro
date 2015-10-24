@@ -18,7 +18,8 @@ import java.awt.*;
  * @author Tyler Sedlar
  * @since 10/21/15
  */
-@Manifest(name = "Test", author = "Tyler", description = "For debugging purposes", banks = true)
+@Manifest(name = "Test", author = "Tyler", description = "For debugging purposes",
+        version = "1.0.0", banks = true)
 public class Test extends Macro implements Renderable, PixelListener {
 
     @Override

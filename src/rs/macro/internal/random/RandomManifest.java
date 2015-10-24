@@ -1,22 +1,18 @@
-package rs.macro.api;
+package rs.macro.internal.random;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author Tyler Sedlar
- * @since 4/30/15
+ * @since 10/23/15
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Manifest {
-
-    String author();
+public @interface RandomManifest {
 
     String name();
 
-    String description();
+    String author();
 
     String version();
-
-    boolean banks();
 }

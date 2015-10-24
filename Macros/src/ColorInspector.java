@@ -26,8 +26,9 @@ import java.util.List;
  * @author Tyler Sedlar
  * @since 4/30/2015
  */
-@Manifest(author = "Tyler", name = "Color Inspector", description = "Helps gather data for macros",
-        banks = false)
+@Manifest(author = "Tyler", name = "Color Inspector",
+        description = "Helps gather data for macros",
+        version = "1.0.0", banks = false)
 public class ColorInspector extends Macro implements Renderable, PixelListener {
 
     private static final BasicStroke STROKE = new BasicStroke(2);

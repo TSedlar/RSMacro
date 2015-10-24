@@ -40,6 +40,9 @@ public class RandomHandler extends LoopTask {
         }
         for (RandomEvent event : events) {
             if (event.activate()) {
+                RandomManifest manifest = event.getClass().getAnnotation(RandomManifest.class);
+                System.out.println(String.format("[Random Event] Started %s v%s by %s",
+                        manifest.name(), manifest.version(), manifest.author()));
                 Macro macro = MacroSelector.current();
                 if (macro != null) {
                     macro.setPaused(true);

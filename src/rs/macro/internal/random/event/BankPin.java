@@ -8,6 +8,7 @@ import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.model.PixelModel;
 import rs.macro.internal.CacheData;
 import rs.macro.internal.random.RandomEvent;
+import rs.macro.internal.random.RandomManifest;
 
 import java.awt.*;
 
@@ -15,6 +16,7 @@ import java.awt.*;
  * @author Tyler Sedlar
  * @since 10/23/15
  */
+@RandomManifest(name = "Bank Pin Solver", author = "Tyler", version = "1.0.0")
 public class BankPin extends RandomEvent implements Renderable {
 
     private static final PixelModel QUESTION_MODEL = PixelModel.fromString("#FFFF00/5 #FFFF00/5/1/0 #FFFF00/5/2/0 #FFFF00/5/-1/1 #FFFF00/5/3/1 #FFFF00/5/-1/2 #FFFF00/5/3/2 #FFFF00/5/3/3 #FFFF00/5/2/4 #FFFF00/5/1/5 #FFFF00/5/0/6 #FFFF00/5/0/7 #FFFF00/5/0/9 #FFFF00/5/0/10");
