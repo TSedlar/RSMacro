@@ -5,6 +5,7 @@ import rs.macro.api.util.fx.Colors;
 
 import java.awt.*;
 import java.awt.image.*;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 /**
@@ -12,6 +13,8 @@ import java.util.stream.Stream;
  * @since 10/21/15
  */
 public class Imaging {
+
+    private static final Stream<Point> EMPTY_STREAM = new ArrayList<Point>().stream();
 
     public static int pixelBytesToARGB(byte[] pixels, int idx, boolean alpha) {
         int startIndex = (alpha ? 0 : -1);
@@ -43,6 +46,9 @@ public class Imaging {
 
     public static Stream<Point> query(BufferedImage image, int[] pixels,
                                       TriFilter<Integer, Integer, Integer> pixelFilter) {
+        if (image == null) {
+            return EMPTY_STREAM;
+        }
         int w = image.getWidth(), h = image.getHeight();
         return Stream.iterate(0, n -> ++n)
                 .limit(pixels.length)

@@ -26,7 +26,7 @@ public abstract class LoopTask {
                     e.printStackTrace();
                     running = false;
                 }
-            } while (loop > 0 && running && !thread.isInterrupted());
+            } while (loop >= 0 && running);
             stop();
         });
         this.thread.start();

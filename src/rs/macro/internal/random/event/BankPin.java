@@ -105,7 +105,7 @@ public class BankPin extends RandomEvent implements Renderable {
             Mouse.click(bounds, true);
             if (Time.waitFor(2500, () -> stage() != stage)) {
                 if (questions() == 0) {
-                    return true;
+                    return Time.waitFor(5000, Bank::viewing);
                 }
             }
         }

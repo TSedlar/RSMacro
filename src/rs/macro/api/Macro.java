@@ -75,6 +75,7 @@ public abstract class Macro extends Thread implements MouseListener,
             try {
                 loop = loop();
             } catch (Exception e) {
+                e.printStackTrace();
                 break;
             }
             if (loop < 0) {

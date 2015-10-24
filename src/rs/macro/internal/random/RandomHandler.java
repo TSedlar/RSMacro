@@ -28,18 +28,25 @@ public class RandomHandler extends LoopTask {
     public int loop() {
         for (RandomEvent event : events) {
             if (event.solving) {
-                if (event.solve()) {
+                boolean solved = false;
+                try {
+                    solved = event.solve();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (solved) {
+                    event.solving = false;
                     Macro macro = MacroSelector.current();
                     if (macro != null) {
                         macro.setPaused(false);
                     }
-                    event.solving = false;
                 }
                 return 0;
             }
         }
         for (RandomEvent event : events) {
             if (event.activate()) {
+                event.solving = true;
                 RandomManifest manifest = event.getClass().getAnnotation(RandomManifest.class);
                 System.out.println(String.format("[Random Event] Started %s v%s by %s",
                         manifest.name(), manifest.version(), manifest.author()));
@@ -47,7 +54,6 @@ public class RandomHandler extends LoopTask {
                 if (macro != null) {
                     macro.setPaused(true);
                 }
-                event.solving = true;
                 return 0;
             }
         }
