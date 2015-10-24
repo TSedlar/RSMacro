@@ -30,16 +30,26 @@ public class Crawler {
 
     private int hash = -1;
 
+    /**
+     * Creates a Crawler for the given type.
+     *
+     * @param type The GameType to create this Crawler for.
+     */
     public Crawler(GameType type) {
         this.type = type;
         pack = Configuration.CACHE + (type == GameType.OSRS ? "os" : "rs3") +
                 "_pack.jar";
         CacheData.parseWorld();
-        home = String.format("http://oldschool%d.runescape.com/",
-                CacheData.world());
+        home = String.format(type.format, CacheData.world());
         config = home + "jav_config.ws";
     }
 
+    /**
+     * Creates the Applet from the given ClassLoader.
+     *
+     * @param classloader The ClassLoader of the downloaded game.
+     * @return The Applet from the given ClassLoader.
+     */
     public Applet start(ClassLoader classloader) {
         try {
             String main = parameters.get("initial_class").replace(".class", "");
@@ -47,7 +57,7 @@ public class Crawler {
             applet.setBackground(Color.BLACK);
             applet.setPreferredSize(appletSize());
             applet.setLayout(null);
-            applet.setStub(envFor(applet));
+            applet.setStub(stub(applet));
             applet.init();
             applet.start();
             applet.setVisible(true);
@@ -59,7 +69,13 @@ public class Crawler {
         }
     }
 
-    public AppletStub envFor(Applet applet) {
+    /**
+     * Creates the AppletStub for the given Applet.
+     *
+     * @param applet The game Applet.
+     * @return The AppletStub for the given Applet.
+     */
+    public AppletStub stub(Applet applet) {
         return new AppletStub() {
 
             @Override
@@ -103,6 +119,11 @@ public class Crawler {
         };
     }
 
+    /**
+     * Gets the hash of the local game jar.
+     *
+     * @return The hash of the local game jar.
+     */
     private int localHash() {
         try {
             URL url = new File(pack).toURI().toURL();
@@ -116,10 +137,20 @@ public class Crawler {
         }
     }
 
+    /**
+     * Gets the current game hash.
+     *
+     * @return The current game hash.
+     */
     public int hash() {
         return hash;
     }
 
+    /**
+     * Gets the game hash on the server.
+     *
+     * @return The game hash on the server.
+     */
     public int remoteHash() {
         try {
             URL url = new URL(home + parameters.get("initial_jar"));
@@ -133,10 +164,18 @@ public class Crawler {
         }
     }
 
+    /**
+     * Sets the hash object to the local jar hash.
+     */
     public void initHash() {
         hash = localHash();
     }
 
+    /**
+     * Checks whether the local jar is outdated or not.
+     *
+     * @return <t>true</t> if the local hash doesn't match the remote hash, otherwise <t>false</t>.
+     */
     public boolean outdated() {
         File gamepack = new File(pack);
         if (!gamepack.exists()) {
@@ -152,6 +191,11 @@ public class Crawler {
         return outdated;
     }
 
+    /**
+     * Reads the server configuration.
+     *
+     * @return <t>true</t> if the server configuration was read, otherwise <t>false</t>.
+     */
     public boolean crawl() {
         try {
             List<String> source = Internet.read(config);
@@ -172,6 +216,13 @@ public class Crawler {
         }
     }
 
+    /**
+     * Downloads the game jar to the given target.
+     *
+     * @param target   The path to download to.
+     * @param callback The callback to be run upon download percentage change.
+     * @return <t>true</t> if the game was downloaded, otherwise <t>false</t>.
+     */
     public boolean download(String target, Runnable callback) {
         hash = remoteHash();
         return Internet.download(home + parameters.get("initial_jar"),
@@ -185,18 +236,38 @@ public class Crawler {
                 }) != null;
     }
 
+    /**
+     * Downloads the game jar to the given target.
+     *
+     * @param target The path to download to.
+     * @return <t>true</t> if the game was downloaded, otherwise <t>false</t>.
+     */
     public boolean download(String target) {
         return download(target, null);
     }
 
+    /**
+     * Downloads the game jar.
+     */
     public boolean download() {
         return download(pack);
     }
 
+    /**
+     * Downloads the game jar.
+     *
+     * @param callback The callback to be run upon download percentage change.
+     * @return <t>true</t> if the game was downloaded, otherwise <t>false</t>.
+     */
     public boolean download(Runnable callback) {
         return download(pack, callback);
     }
 
+    /**
+     * Gets the default Applet dimensions based on its parameters.
+     *
+     * @return The default Applet dimensions based on its parameters.
+     */
     public Dimension appletSize() {
         try {
             return new Dimension(
@@ -207,7 +278,17 @@ public class Crawler {
         }
     }
 
+    /**
+     * The types of games this Crawler can load.
+     */
     public enum GameType {
-        OSRS, RS3
+        OSRS("http://oldschool%d.runescape.com/"),
+        RS3("http://world%d.runescape.com/");
+
+        public final String format;
+
+        GameType(String format) {
+            this.format = format;
+        }
     }
 }

@@ -28,6 +28,13 @@ public class Executor {
 
     private final Class<?> main, application;
 
+    /**
+     * Creates an Executor with the given arguments.
+     *
+     * @param main        The Class that will be calling this class.
+     * @param application The Class to be ran.
+     * @param appName     The name of the application.
+     */
     public Executor(Class<?> main, Class<?> application, String appName) {
         this.main = main;
         this.application = application;
@@ -53,11 +60,23 @@ public class Executor {
         }
     }
 
-    public Executor flag(String arg) {
-        flags.add(arg);
+    /**
+     * Appends the given flag to the list of application flags.
+     *
+     * @param flag The flag to append.
+     * @return The current Executor with the appended flag.
+     */
+    public Executor flag(String flag) {
+        flags.add(flag);
         return this;
     }
 
+    /**
+     * Appends an Xboot argument to the list of application flags.
+     *
+     * @param jar The Jar to be on the -Xbootclasspath.
+     * @return The current Executor with the appended Xboot argument.
+     */
     public Executor xboot(File jar) {
         StringBuilder builder = new StringBuilder();
         builder.append(XBOOT);
@@ -68,11 +87,22 @@ public class Executor {
         return this;
     }
 
+    /**
+     * Appends the given jar library to the list of application libraries.
+     *
+     * @param jar The library to be on the -classpath.
+     * @return The current Executor with the appended jar library.
+     */
     public Executor lib(File jar) {
         libs.add(Strings.cleanUTF8(jar.getAbsolutePath()));
         return this;
     }
 
+    /**
+     * Executes the built command.
+     *
+     * @return The built process's #waitFor result.
+     */
     public int start() {
         StringBuilder builder = new StringBuilder();
         builder.append(JAVA);

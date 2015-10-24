@@ -13,8 +13,20 @@ import java.lang.reflect.Modifier;
  */
 public abstract class MacroLoader<T> implements Filter<Class<?>> {
 
+    /**
+     * Parses the given argument (directory/class).
+     *
+     * @param t The argument to parse.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public abstract void parse(T t) throws IOException, ClassNotFoundException;
 
+    /**
+     * The MacroDefinitions of the parsed Macros.
+     *
+     * @return MacroDefinitions of the parsed Macros.
+     */
     public abstract MacroDefinition[] definitions();
 
     @Override

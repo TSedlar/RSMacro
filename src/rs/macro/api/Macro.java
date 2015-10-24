@@ -82,7 +82,7 @@ public abstract class Macro extends Thread implements MouseListener,
             }
             Time.sleep(loop);
         }
-        MacroSelector.unsetSlave();
+        MacroSelector.unsetMacro();
     }
 
     public final void addRuntimeCallback(long everyMillis, Runnable callback) {

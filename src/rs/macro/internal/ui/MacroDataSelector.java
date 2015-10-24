@@ -24,6 +24,9 @@ public class MacroDataSelector extends JDialog {
     private int minute;
     private String period;
 
+    /**
+     * Creates the dialog that has data pertaining to the selected Macro.
+     */
     public MacroDataSelector() {
         setTitle("Bank Selector");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -65,22 +68,47 @@ public class MacroDataSelector extends JDialog {
         setLocationRelativeTo(getOwner());
     }
 
+    /**
+     * The BankModel of the bank that was chosen.
+     *
+     * @return The BankModel of the bank that was chosen.
+     */
     public BankModel bank() {
         return chosen;
     }
 
+    /**
+     * The hour of the day to stop the Macro at.
+     *
+     * @return The hour of the day to stop the Macro at.
+     */
     public int hour() {
         return hour;
     }
 
+    /**
+     * The minute of the given hour to stop the Macro at.
+     *
+     * @return The minute of the given hour to stop the Macro at.
+     */
     public int minute() {
         return minute;
     }
 
+    /**
+     * The time of day to stop the Macro at. (AM/PM)
+     *
+     * @return The time of day to stop the Macro at. (AM/PM)
+     */
     public String period() {
         return period;
     }
 
+    /**
+     * Chooses the BankModel of the selected bank JComboBox.
+     *
+     * @return Chooses the BankModel of the selected bank JComboBox.
+     */
     public BankModel choose() {
         selected = false;
         try {

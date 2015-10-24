@@ -14,6 +14,12 @@ import java.io.InputStream;
  */
 public class Boot {
 
+    /**
+     * Sets up project configuration and executes the project with certain flags.
+     *
+     * @param args The flags to run the application with.
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         Configuration.setup();
         File canvasJar = new File(Configuration.LIBRARIES, "CanvasHack.jar");
@@ -24,15 +30,17 @@ public class Boot {
                 Streams.transfer(canvas, localCanvas);
             }
         }
-        new Executor(Boot.class, RSMacro.class, Configuration.APPLICATION_NAME)
+        Executor exec = new Executor(Boot.class, RSMacro.class, Configuration.APPLICATION_NAME)
                 .flag("-Dsun.java2d.d3d=false")
                 .flag("-XX:SurvivorRatio=4")
                 .flag("-XX:+UseCompressedClassPointers")
                 .flag("-XX:+UseCompressedOops")
                 .flag("-XX:+UseParNewGC")
-                .flag("-XX:+UseConcMarkSweepGC")
-                .xboot(canvasJar)
-                .lib(canvasJar)
-                .start();
+                .flag("-XX:+UseConcMarkSweepGC");
+        for (String arg : args) {
+            exec = exec.flag(arg);
+        }
+        exec = exec.xboot(canvasJar).lib(canvasJar);
+        exec.start();
     }
 }

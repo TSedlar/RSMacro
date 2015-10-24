@@ -67,6 +67,12 @@ public class BankPin extends RandomEvent implements Renderable {
     private Rectangle bounds = null;
     private int stage = -1;
 
+    /**
+     * Finds the bounds that holds the given number.
+     *
+     * @param number The number to find.
+     * @return The bounds that holds the given number.
+     */
     private Rectangle findNumberBounds(int number) {
         PixelModel model = NUMBER_MODELS[number];
         for (Rectangle bounds : NUMBER_BOUNDS) {
@@ -80,6 +86,11 @@ public class BankPin extends RandomEvent implements Renderable {
         return null;
     }
 
+    /**
+     * The amount of questions that have not been solved.
+     *
+     * @return The amount of questions that have not been solved.
+     */
     private int questions() {
         return (int) RuneScape.pixels().operator().builder()
                 .bounds(QUESTION_BOUNDS)
@@ -87,6 +98,11 @@ public class BankPin extends RandomEvent implements Renderable {
                 .query().count();
     }
 
+    /**
+     * The current question that is being solved.
+     *
+     * @return The current question that is being solved.
+     */
     private int stage() {
         return (4 - questions());
     }

@@ -42,7 +42,8 @@ public class LocalMacroLoader extends MacroLoader<File> {
     }
 
     @SuppressWarnings("unchecked")
-    private void readClass(ClassLoader classLoader, File root, File file) throws ClassNotFoundException {
+    private void readClass(ClassLoader classLoader, File root, File file)
+            throws ClassNotFoundException {
         String className = file.getPath();
         String rootPath = root.getPath();
         className = className.substring(rootPath.length() + 1);

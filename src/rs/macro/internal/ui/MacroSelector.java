@@ -30,19 +30,32 @@ public class MacroSelector extends JDialog {
     private final DefaultTableModel model;
     private final JTable table;
 
-    private SlaveVector selected;
+    private MacroEntry selected;
 
     private static Macro current;
 
+    /**
+     * Gets the MacroDataSelector available to the selected Macro.
+     *
+     * @return The MacroDataSelector available to the selected Macro.
+     */
     public final MacroDataSelector dataSelector() {
         return macroDataSelector;
     }
 
+    /**
+     * Gets the currently running Macro.
+     *
+     * @return The currently running Macro.
+     */
     public static Macro current() {
         return current;
     }
 
-    public static void unsetSlave() {
+    /**
+     * Stops the currently running Macro.
+     */
+    public static void unsetMacro() {
         if (current != null) {
             current.interrupt();
             if (current != null) {
@@ -55,6 +68,9 @@ public class MacroSelector extends JDialog {
         RSMacro.instance().setRunningMacro(false);
     }
 
+    /**
+     * Creates the dialog for selecting the Macro to be ran.
+     */
     public MacroSelector() {
         setTitle("Macro Selector");
         setResizable(false);
@@ -103,7 +119,7 @@ public class MacroSelector extends JDialog {
             if (row < 0) {
                 return;
             }
-            selected = (SlaveVector) model.getDataVector().get(row);
+            selected = (MacroEntry) model.getDataVector().get(row);
         });
         JScrollPane scrollpane = new JScrollPane(table);
         scrollpane.setPreferredSize(new Dimension(500, 270));
@@ -141,7 +157,7 @@ public class MacroSelector extends JDialog {
                     RSMacro.instance().setRunningMacro(false);
                     RuneScape.pixels().stop();
                     RuneScape.pixels().setImage(null);
-                    unsetSlave();
+                    unsetMacro();
                 }
                 dispose();
             }
@@ -151,7 +167,10 @@ public class MacroSelector extends JDialog {
         pack();
     }
 
-    public void loadSlaves() {
+    /**
+     * Loads the local Macros into the MacroSelector.
+     */
+    public void loadMacros() {
         model.getDataVector().clear();
         model.fireTableDataChanged();
         LocalMacroLoader loader = new LocalMacroLoader();
@@ -159,7 +178,7 @@ public class MacroSelector extends JDialog {
             loader.parse(new File(Configuration.MACROS));
             MacroDefinition[] definitions = loader.definitions();
             for (MacroDefinition def : definitions) {
-                addSlave(def);
+                addMacro(def);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -167,11 +186,14 @@ public class MacroSelector extends JDialog {
         model.fireTableDataChanged();
     }
 
-    private class SlaveVector extends Vector<String> {
+    /**
+     * An entry that holds data on the supplied MacroDefinition.
+     */
+    private class MacroEntry extends Vector<String> {
 
         public final MacroDefinition def;
 
-        public SlaveVector(MacroDefinition def, String... strings) {
+        public MacroEntry(MacroDefinition def, String... strings) {
             this.def = def;
             for (String string : strings) {
                 add(string);
@@ -179,9 +201,14 @@ public class MacroSelector extends JDialog {
         }
     }
 
-    public void addSlave(MacroDefinition def) {
+    /**
+     * Inserts the given MacroDefinition data into the table's model.
+     *
+     * @param def The MacroDefinition to insert into the table.
+     */
+    public void addMacro(MacroDefinition def) {
         Manifest manifest = def.manifest();
-        model.addRow(new SlaveVector(def, manifest.author(), manifest.name(),
+        model.addRow(new MacroEntry(def, manifest.author(), manifest.name(),
                 manifest.description()));
     }
 }

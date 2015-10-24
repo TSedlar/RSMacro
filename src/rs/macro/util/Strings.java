@@ -8,6 +8,12 @@ import java.net.URLDecoder;
  */
 public class Strings {
 
+    /**
+     * Cleans up a string's UTF8 content.
+     *
+     * @param string The string to clean up.
+     * @return A string with cleaned up UTF8 content. (%20 = " ", \\\\ = /)
+     */
     public static String cleanUTF8(String string) {
         string = string.replaceAll("\\\\", "/");
         string = string.replaceAll("%20", " ");

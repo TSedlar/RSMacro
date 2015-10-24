@@ -28,10 +28,20 @@ public class RandomHandler extends LoopTask implements Renderable {
     private RandomEvent current = null;
     private String label;
 
+    /**
+     * A list of RandomEvents that are being handled.
+     *
+     * @return A list of RandomEvents that are being handled.
+     */
     public List<RandomEvent> events() {
         return events;
     }
 
+    /**
+     * Adds the given RandomEvent into the list of events to be handled.
+     *
+     * @param event The RandomEvent to be handled.
+     */
     public void submit(RandomEvent event) {
         events.add(event);
     }

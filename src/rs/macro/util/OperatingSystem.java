@@ -8,8 +8,13 @@ import java.io.File;
  */
 public enum OperatingSystem {
 
-    WINDOWS, MAC, LINUX, UNKNOWN, OperatingSystem;
+    WINDOWS, MAC, LINUX, UNKNOWN;
 
+    /**
+     * Gets the path to the user home directory.
+     *
+     * @return The path to the user home directory.
+     */
     public static String home() {
         return System.getProperty("user.home") + File.separator;
     }
@@ -21,6 +26,11 @@ public enum OperatingSystem {
                 orig.substring(1).toLowerCase();
     }
 
+    /**
+     * Checks whether the OS is 64bit or not.
+     *
+     * @return <t>true</t> if the OS is 64bit, otherwise <t>false</t>.
+     */
     public boolean arch64() {
         String[] keys = {"sun.arch.data.model", "com.ibm.vm.bitmode", "os.arch"};
         for (String key : keys) {
@@ -32,6 +42,11 @@ public enum OperatingSystem {
         return false;
     }
 
+    /**
+     * Gets the OS data string that's contained within a User-Agent.
+     *
+     * @return Gets the OS data string that's contained within a User-Agent.
+     */
     public String userAgentPart() {
         switch (get()) {
             case LINUX: {
@@ -46,6 +61,11 @@ public enum OperatingSystem {
         }
     }
 
+    /**
+     * Gets the currently running OperatingSystem.
+     *
+     * @return The currently running OperatingSystem.
+     */
     public static OperatingSystem get() {
         String os = System.getProperty("os.name");
         for (OperatingSystem o : values()) {

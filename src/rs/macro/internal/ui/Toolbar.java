@@ -16,15 +16,18 @@ public class Toolbar extends JMenuBar {
     public final JCheckBoxMenuItem mouseInput = new JCheckBoxMenuItem("Mouse");
     public final JCheckBoxMenuItem keyboardInput = new JCheckBoxMenuItem("Keyboard");
 
+    /**
+     * Creates the JMenuBar that is displayed at the top of the UI.
+     */
     public Toolbar() {
         JMenu file = new JMenu("File");
         macro.addActionListener(evt -> {
             if (!RSMacro.instance().isRunningMacro()) {
-                RSMacro.instance().selector().loadSlaves();
+                RSMacro.instance().selector().loadMacros();
                 RSMacro.instance().selector().setLocationRelativeTo(RSMacro.instance());
                 RSMacro.instance().selector().setVisible(true);
             } else {
-                MacroSelector.unsetSlave();
+                MacroSelector.unsetMacro();
             }
         });
         file.add(macro);

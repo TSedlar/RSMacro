@@ -65,12 +65,12 @@ public class Streams {
     /**
      * Converts the given class to a byte[]
      *
-     * @param clazz The class to convert
+     * @param c The class to convert
      * @return the byte[] of the given class
      */
-    public static byte[] binaryClass(String clazz) {
+    public static byte[] binaryClass(String c) {
         try {
-            String path = clazz.replace('.', '/') + ".class";
+            String path = c.replace('.', '/') + ".class";
             return binary(ClassLoader.getSystemResourceAsStream(path));
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,11 +81,11 @@ public class Streams {
     /**
      * Converts the given class to a byte[]
      *
-     * @param clazz The class to convert
+     * @param c The class to convert
      * @return the byte[] of the given class
      */
-    public static byte[] binaryClass(Class<?> clazz) {
-        return binaryClass(clazz.getCanonicalName());
+    public static byte[] binaryClass(Class<?> c) {
+        return binaryClass(c.getCanonicalName());
     }
 
     /**

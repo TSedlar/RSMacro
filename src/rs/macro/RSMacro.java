@@ -38,10 +38,18 @@ public class RSMacro extends JFrame implements Runnable {
 
     private boolean isRunningMacro;
 
+    /**
+     * Gets the currently running RSMacro instance.
+     *
+     * @return The currently running RSMacro instance.
+     */
     public static RSMacro instance() {
         return instance;
     }
 
+    /**
+     * Creates the RSMacro application.
+     */
     public RSMacro() {
         super("RSMacro");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -54,14 +62,29 @@ public class RSMacro extends JFrame implements Runnable {
         new Thread(this).start();
     }
 
+    /**
+     * Gets the application's MacroSelector.
+     *
+     * @return The application's MacroSelector.
+     */
     public MacroSelector selector() {
         return selector;
     }
 
+    /**
+     * Gets the application's EventDispatcher.
+     *
+     * @return The application's EventDispatcher.
+     */
     public EventDispatcher dispatcher() {
         return dispatcher;
     }
 
+    /**
+     * Sets data according to the given argument.
+     *
+     * @param isRunningMacro <t>true</t> if a Macro is running, otherwise <t>false</t>.
+     */
     public void setRunningMacro(boolean isRunningMacro) {
         this.isRunningMacro = isRunningMacro;
         toolbar.macro.setText((isRunningMacro ? "Stop" : "Start") + " slave");
@@ -79,10 +102,20 @@ public class RSMacro extends JFrame implements Runnable {
         }
     }
 
+    /**
+     * Checks whether a Macro is running or not.
+     *
+     * @return <t>true</t> if a Macro is running, otherwise <t>false</t>.
+     */
     public boolean isRunningMacro() {
         return isRunningMacro;
     }
 
+    /**
+     * Gets the application's Toolbar.
+     *
+     * @return The application's Toolbar.
+     */
     public Toolbar toolbar() {
         return toolbar;
     }
@@ -139,7 +172,13 @@ public class RSMacro extends JFrame implements Runnable {
         dispatcher = new EventDispatcher(GameCanvas.instance);
     }
 
-    public static void main(String... args) throws Exception {
+    /**
+     * Runs the application.
+     *
+     * @param args The arguments to run the application with.
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
         if (OperatingSystem.get() == OperatingSystem.WINDOWS) {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } else if (OperatingSystem.get() == OperatingSystem.MAC) {
