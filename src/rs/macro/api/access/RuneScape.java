@@ -80,4 +80,18 @@ public class RuneScape {
                 .bounds(654, 3, 108, 166)
                 .query().count() > 0;
     }
+
+    /**
+     * Gets the currently opened GameTab.
+     *
+     * @return The currently opened GameTab.
+     */
+    public GameTab currentTab() {
+        for (GameTab tab : GameTab.values()) {
+            if (tab.viewing()) {
+                return tab;
+            }
+        }
+        return null;
+    }
 }

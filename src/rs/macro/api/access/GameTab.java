@@ -1,5 +1,7 @@
 package rs.macro.api.access;
 
+import rs.macro.api.access.input.Mouse;
+import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.Colors;
 
 import java.awt.*;
@@ -44,5 +46,15 @@ public enum GameTab {
                 .bounds(bounds)
                 .tolFilter(OPENED_RGB, 3)
                 .query().count() > 0;
+    }
+
+    /**
+     * Opens the tab.
+     *
+     * @return <t>true</t> if the tab was successfully opened, otherwise <t>false</t>.
+     */
+    public boolean open() {
+        Mouse.click(bounds, true);
+        return Time.waitFor(2000, this::viewing);
     }
 }
