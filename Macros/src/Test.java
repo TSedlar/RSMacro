@@ -1,7 +1,5 @@
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
-import rs.macro.api.access.Bank;
-import rs.macro.api.access.Camera;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.fx.MousePaint;
 import rs.macro.api.util.fx.PixelOperator;
@@ -14,23 +12,15 @@ import java.awt.*;
  * @since 10/21/15
  */
 @Manifest(name = "Test", author = "Tyler", description = "For debugging purposes",
-        version = "1.0.0", banks = true)
+        version = "1.0.0", banks = false)
 public class Test extends Macro implements Renderable, PixelListener {
 
     @Override
     public void atStart() {
-        Camera.setPitch(false);
     }
 
     @Override
     public int loop() {
-        if (!Bank.viewing()) {
-            if (Bank.open()) {
-                System.out.println("OPENED BANK");
-            }
-        } else {
-            System.out.println("OPENED BANK ALREADY");
-        }
         return 1000;
     }
 
