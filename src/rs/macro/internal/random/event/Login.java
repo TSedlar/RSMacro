@@ -10,6 +10,7 @@ import rs.macro.internal.CacheData;
 import rs.macro.internal.random.RandomEvent;
 import rs.macro.internal.random.RandomManifest;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -20,8 +21,9 @@ import java.awt.Rectangle;
 @RandomManifest(name = "Login Solver", author = "Jacob Doiron", version = "1.0.0")
 public class Login extends RandomEvent implements Renderable {
 
-    private int stage = -1;
     private boolean sent;
+
+    private Rectangle bounds;
 
     private static final Rectangle[] STAGE_BOUNDS = {
             new Rectangle(266, 281, 246, 21), // new user/existing user
@@ -43,6 +45,7 @@ public class Login extends RandomEvent implements Renderable {
     private int stage() {
         for (int i = 0; i < SCREEN_MODELS.length; i++) {
             if (RuneScape.pixels().operator().builder().bounds(STAGE_BOUNDS[i]).model(SCREEN_MODELS[i]).first() != null) {
+                bounds = i == 1 ? null : i == 2 ? CLICK_BOUNDS[1] : CLICK_BOUNDS[0];
                 return i;
             }
         }
@@ -56,13 +59,16 @@ public class Login extends RandomEvent implements Renderable {
 
     @Override
     public boolean solve() {
-        stage = stage();
+        int stage = stage();
         String user = CacheData.user();
         String pass = CacheData.pass();
         if (user == null || pass == null) {
             CacheData.parseLogin();
             user = CacheData.user();
             pass = CacheData.pass();
+        }
+        if (stage == -1) {
+            return true;
         }
         if (stage == 0) {
             Mouse.click(CLICK_BOUNDS[0], true);
@@ -88,6 +94,9 @@ public class Login extends RandomEvent implements Renderable {
 
     @Override
     public void render(Graphics2D g) {
-
+        if (bounds != null) {
+            g.setColor(Color.GREEN);
+            g.draw(bounds);
+        }
     }
 }
