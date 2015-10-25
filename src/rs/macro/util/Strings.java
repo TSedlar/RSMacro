@@ -8,6 +8,28 @@ import java.net.URLDecoder;
  */
 public class Strings {
 
+    private static final String A = "A", TEN = "10";
+    private static final String B = "B", ELEVEN = "11";
+    private static final String C = "C", TWELVE = "12";
+    private static final String D = "D", THIRTEEN = "13";
+    private static final String E = "E", FOURTEEN = "14";
+    private static final String F = "F", FIFTEEN = "15";
+
+    /**
+     * Replaces letters in a hex string with their number. (A -> 10)
+     *
+     * @param hex The hex string.
+     * @return A string without hex letters. (AC -> 1012)
+     */
+    public static String replaceHexLetters(String hex) {
+        return hex.replaceAll(A, TEN)
+                .replaceAll(B, ELEVEN)
+                .replaceAll(C, TWELVE)
+                .replaceAll(D, THIRTEEN)
+                .replaceAll(E, FOURTEEN)
+                .replaceAll(F, FIFTEEN);
+    }
+
     /**
      * Cleans up a string's UTF8 content.
      *

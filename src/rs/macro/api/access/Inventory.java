@@ -1,10 +1,13 @@
 package rs.macro.api.access;
 
+import rs.macro.api.util.filter.Filter;
 import rs.macro.api.util.fx.Colors;
+import rs.macro.api.util.fx.PixelBuilder;
 import rs.macro.api.util.fx.model.PixelModel;
+import rs.macro.util.Strings;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +21,27 @@ public class Inventory {
     public static final int INV_BORDER_RGB = Colors.hexToRGB("#000001");
     public static final int INV_SHADOW_RGB = Colors.hexToRGB("#302020");
     public static final int AMOUNT_RGB = Colors.hexToRGB("#FFFF00");
+    public static final Filter<Integer> ITEM_MODEL_FILTER = (rgb) ->
+            Colors.tolerance(rgb, INV_BACKGROUND_RGB) > 15 &&
+            Colors.tolerance(rgb, INV_BORDER_RGB) > 2 &&
+            Colors.tolerance(rgb, INV_SHADOW_RGB) > 2 &&
+            Colors.tolerance(rgb, AMOUNT_RGB) > 5;
+
+    private static final String TAG = "#", EMPTY = "";
+
+    /**
+     * Creates a PixelBuilder of the given slot, excluding shadows/amount/borders.
+     *
+     * @param slot The slot index to create a PixelBuilder for.
+     * @return A PixelBuilder of the given slot, excluding shadows/amount/borders.
+     */
+    public static PixelBuilder createPixelBuilderAt(int slot) {
+        Rectangle bounds = SLOTS[slot];
+        return RuneScape.pixels().operator().builder()
+                .bounds(bounds.x, bounds.y + (int) (bounds.height * 0.32D), bounds.width,
+                        (int) (bounds.height * 0.68D))
+                .filter(ITEM_MODEL_FILTER);
+    }
 
     /**
      * Creates a PixelModel of the given slot, excluding shadows/amount/borders.
@@ -27,13 +51,7 @@ public class Inventory {
      * @return A PixelModel of the given slot, excluding shadows/amount/borders.
      */
     public static PixelModel createModelAt(int slot, int tolerance) {
-        java.util.List<Point> points = RuneScape.pixels().operator().builder()
-                .bounds(SLOTS[slot])
-                .filter(rgb -> (Colors.tolerance(rgb, INV_BACKGROUND_RGB) > 15 &&
-                        Colors.tolerance(rgb, INV_BORDER_RGB) > 2 &&
-                        Colors.tolerance(rgb, INV_SHADOW_RGB) > 2 &&
-                        Colors.tolerance(rgb, AMOUNT_RGB) > 5))
-                .all();
+        List<Point> points = createPixelBuilderAt(slot).all();
         return !points.isEmpty() ? PixelModel.fromPoints(points, tolerance) : null;
     }
 
@@ -121,5 +139,49 @@ public class Inventory {
      */
     public static boolean full() {
         return count() == 28;
+    }
+
+    /**
+     * Gets a visual representation ID of the given slot.
+     *
+     * @param slot The slot index to get an ID for.
+     * @return A visual representation ID of the given slot.
+     */
+    public static int idAt(int slot) {
+        PixelBuilder builder = Inventory.createPixelBuilderAt(slot);
+        List<Point> points = builder.all();
+        if (points.isEmpty()) {
+            return -1;
+        }
+        int length = points.size();
+        int minX = points.stream().sorted((a, b) -> a.x - b.x).findFirst().get().x;
+        int maxX = points.stream().sorted((a, b) -> b.x - a.x).findFirst().get().x;
+        int width = (maxX - minX);
+        int minY = points.stream().sorted((a, b) -> a.y - b.y).findFirst().get().y;
+        int maxY = points.stream().sorted((a, b) -> b.y - a.y).findFirst().get().y;
+        int height = (maxY - minY);
+        int median = builder.median();
+        String hex = Colors.rgbToHex(median).replace(TAG, EMPTY);
+        String first = Strings.replaceHexLetters(hex.substring(0, 2));
+        String second = Strings.replaceHexLetters(hex.substring(2, 4));
+        String third = Strings.replaceHexLetters(hex.substring(4, 6));
+        return length + width + height + Integer.parseInt(first) +
+                Integer.parseInt(second) + Integer.parseInt(third);
+    }
+
+    /**
+     * Finds the slot with the given item id.
+     *
+     * @param id The id of the item to look for.
+     * @return The slot with the given item id.
+     */
+    public static Rectangle findSlot(int id) {
+        for (int i = 0; i < SLOTS.length; i++) {
+            int slotId = idAt(i);
+            if (id == slotId) {
+                return SLOTS[i];
+            }
+        }
+        return null;
     }
 }

@@ -209,4 +209,26 @@ public class PixelBuilder {
     public List<Point> all() {
         return query().collect(Collectors.toCollection(ArrayList::new));
     }
+
+    /**
+     * Obtains the median RGB value
+     *
+     * @return The median RGB value.
+     */
+    public int median() {
+        int area = sw * sh;
+        int alpha = 0;
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        for (Point p : all()) {
+            int rgb = operator.at(p.x, p.y);
+            alpha += ((rgb >> 24) & 0xFF);
+            red += ((rgb) & 0xFF);
+            green += ((rgb >> 8) & 0xFF);
+            blue += ((rgb >> 16) & 0xFF);
+        }
+        return (((alpha / area) << 24) | ((red / area) << 16) | ((green / area) << 8) |
+                ((blue / area)));
+    }
 }
