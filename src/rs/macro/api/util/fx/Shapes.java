@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class Shapes {
 
+    /**
+     * Gets the list of points within the specified Shape.
+     *
+     * @param shape The Shape.
+     * @return A list of points within the specified Shape.
+     */
     public static List<Point> pointsFor(Shape shape) {
         List<Point> points = new LinkedList<>();
         Rectangle bounds = shape.getBounds();

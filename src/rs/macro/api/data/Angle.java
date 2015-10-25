@@ -13,6 +13,11 @@ public enum Angle {
 
     public final int value;
 
+    /**
+     * Creates an Angle enum with the following argument:
+     *
+     * @param value The angle to represent.
+     */
     Angle(int value) {
         this.value = value;
     }

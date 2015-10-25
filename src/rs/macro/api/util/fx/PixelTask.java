@@ -19,20 +19,36 @@ public class PixelTask extends LoopTask {
     private int delay = 100;
     private PixelOperator operator = new PixelOperator();
 
+    /**
+     * Constructs a PixelTask using the following argument:
+     *
+     * @param image The BufferedImage.
+     */
     public PixelTask(BufferedImage image) {
         if (image != null) {
             setImage(image);
         }
     }
 
+    /**
+     * Constructs a PixelTask using a null image.
+     */
     public PixelTask() {
         this(null);
     }
 
+    /**
+     * @return The PixelOperator.
+     */
     public PixelOperator operator() {
         return operator;
     }
 
+    /**
+     * Sets the BufferedImage
+     *
+     * @param image The BufferedImage to set.
+     */
     public void setImage(BufferedImage image) {
         if (this.image != null) {
             this.pixels = null;
@@ -44,6 +60,11 @@ public class PixelTask extends LoopTask {
         }
     }
 
+    /**
+     * Sets the task's delay.
+     *
+     * @param delay The delay.
+     */
     public void setLoopDelay(int delay) {
         this.delay = delay;
     }

@@ -25,19 +25,38 @@ public enum BankModel {
     private final Angle angle;
     private final PixelModel model;
 
+    /**
+     * Creates a BankModel enum with the following arguments:
+     *
+     * @param angle The angle at which the bank shall be found.
+     * @param model The model for the bank which should be found.
+     */
     BankModel(Angle angle, String model) {
         this.angle = angle;
         this.model = (model != null ? PixelModel.fromString(model) : null);
     }
 
+    /**
+     * Creates a BankModel enum with null arguments.
+     */
     BankModel() {
         this(null, null);
     }
 
+    /**
+     * Gets the angle associated with the BankModel.
+     *
+     * @return The BankModel's Angle.
+     */
     public Angle angle() {
         return angle;
     }
 
+    /**
+     * Gets the model associated with the BankModel.
+     *
+     * @return The BankModel's PixelModel.
+     */
     public PixelModel model() {
         return model;
     }

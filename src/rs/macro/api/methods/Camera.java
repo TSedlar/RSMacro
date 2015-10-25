@@ -11,6 +11,12 @@ import java.awt.event.KeyEvent;
  */
 public class Camera {
 
+    /**
+     * Sets the camera to the specified angle.
+     *
+     * @param angle The angle to be set.
+     * @return <t>true</t> if the camera was set to the specified angle; otherwise, <t>false</t>.
+     */
     public static boolean setAngle(int angle) {
         if (Math.abs(Minimap.angle() - angle) <= 5) {
             return true;
@@ -26,6 +32,11 @@ public class Camera {
         return false;
     }
 
+    /**
+     * Sets the camera's pitch.
+     *
+     * @param up <t>true</t> to set the camera's pitch up; otherwise, <t>false</t>.
+     */
     public static void setPitch(boolean up) {
         if (RuneScape.playing()) {
             char key = up ? (char) KeyEvent.VK_UP : (char) KeyEvent.VK_DOWN;

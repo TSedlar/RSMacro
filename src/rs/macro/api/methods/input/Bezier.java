@@ -10,6 +10,12 @@ import java.util.List;
  */
 public class Bezier {
 
+    /**
+     *
+     * @param cp
+     * @param t
+     * @return
+     */
     private static Point cubic(Point[] cp, double t) {
         double curve = 3D;
         double cx = curve * (cp[1].x - cp[0].x);
@@ -25,6 +31,17 @@ public class Bezier {
         return new Point(resultX, resultY);
     }
 
+    /**
+     * Generates a list of points along the Bezier curve from a start Point to the target Point.
+     *
+     * @param startX The starting x position.
+     * @param startY The starting y position.
+     * @param targetX The ending x position.
+     * @param targetY The ending y position.
+     * @param cp1
+     * @param cp2
+     * @return The list of points representing the Bezier curve.
+     */
     public static List<Point> generate(int startX, int startY, int targetX, int targetY,
                                        Point cp1, Point cp2) {
         double dist = Point.distance(startX, startY, targetX, targetY);
@@ -40,10 +57,26 @@ public class Bezier {
         return pointList;
     }
 
+    /**
+     * Generates a list of points along the Bezier curve to the target Point.
+     *
+     * @param targetX The ending x position.
+     * @param targetY The ending y position.
+     * @param cp1
+     * @param cp2
+     * @return The list of points representing the Bezier curve.
+     */
     public static List<Point> generate(int targetX, int targetY, Point cp1, Point cp2) {
         return generate(Mouse.x(), Mouse.y(), targetX, targetY, cp1, cp2);
     }
 
+    /**
+     * Generates a list of points along the Bezier curve
+     *
+     * @param ex
+     * @param ey
+     * @return The list of points representing the Bezier curve.
+     */
     public static List<Point> generate(int ex, int ey) {
         Point mid = new Point((Mouse.x() + ex) / 2, (Mouse.y() + ey) / 2);
         Point quarterStart = new Point((Mouse.x() + mid.x) / 2, (Mouse.y() + mid.y) / 2);

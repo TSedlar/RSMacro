@@ -16,10 +16,18 @@ public class Minimap {
     public static final Rectangle COMPASS_BOUNDS = new Rectangle(542, 1, 38, 39);
     public static final int COMPASS_RGB = Colors.hexToRGB("#31291D");
 
+    /**
+     * @return The compass's center Point.
+     */
     public static Point compass() {
         return new Point(COMPASS_BOUNDS.x + (COMPASS_BOUNDS.width / 2), COMPASS_BOUNDS.y + (COMPASS_BOUNDS.height / 2));
     }
 
+    /**
+     * Gets the compass's current angle.
+     *
+     * @return The angle which the compass is facing.
+     */
     public static int angle() {
         List<Point> points = RuneScape.pixels().operator().builder()
                 .bounds(COMPASS_BOUNDS)

@@ -13,22 +13,37 @@ public class Viewport {
 //    private static final Point CENTER = new Point(BOUNDS.x + (BOUNDS.width / 2),
 //            BOUNDS.y + (BOUNDS.height / 2));
 
+    /**
+     * @return The starting x coordinate of the viewport.
+     */
     public static int x() {
         return BOUNDS.x;
     }
 
+    /**
+     * @return The starting y coordinate of the viewport.
+     */
     public static int y() {
         return BOUNDS.y;
     }
 
+    /**
+     * @return The viewport's width.
+     */
     public static int width() {
         return BOUNDS.width;
     }
 
+    /**
+     * @return The viewport's height.
+     */
     public static int height() {
         return BOUNDS.height;
     }
 
+    /**
+     * @return The viewport's center Point.
+     */
     public static Point center() {
         return CENTER;
     }

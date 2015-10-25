@@ -12,17 +12,36 @@ public class Colors {
 
     public static final int BLACK = Color.BLACK.getRGB();
 
+    /**
+     * Turns a hexadecimal color into its rbg equivalent.
+     *
+     * @param hex The hex color.
+     * @return The rbg representation of the hex color.
+     */
     public static int hexToRGB(String hex) {
         int i = Integer.decode(hex);
         int r = (i >> 16) & 0xFF, g = (i >> 8) & 0xFF, b = i & 0xFF;
         return ((0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | ((b & 0xFF));
     }
 
+    /**
+     * Turns an rbg color into its hexadecimal equivalent.
+     *
+     * @param rgb The rbg color.
+     * @return The String hex representation of the rbg color.
+     */
     public static String rgbToHex(int rgb) {
         int r = (rgb >> 16) & 0xFF, g = (rgb >> 8) & 0xFF, b = rgb & 0xFF;
         return String.format(HEX_FORMAT, r, g, b);
     }
 
+    /**
+     * Gets the average of two colors.
+     *
+     * @param rgb1 The first rbg color.
+     * @param rgb2 The second rbg color.
+     * @return The average of the two colors.
+     */
     public static double average(int rgb1, int rgb2) {
         int r1 = (rgb1 >> 16) & 0xFF, r2 = (rgb2 >> 16) & 0xFF;
         int g1 = (rgb1 >> 8) & 0xFF, g2 = (rgb2 >> 8) & 0xFF;
@@ -34,6 +53,13 @@ public class Colors {
         return Math.sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8));
     }
 
+    /**
+     * Gets the average tolerance of two colors.
+     *
+     * @param rgb1 The first rbg color.
+     * @param rgb2 The second rbg color.
+     * @return The average tolerance of the two colors.
+     */
     public static int tolerance(int rgb1, int rgb2) {
         int r1 = (rgb1 >> 16) & 0xFF, r2 = (rgb2 >> 16) & 0xFF;
         int g1 = (rgb1 >> 8) & 0xFF, g2 = (rgb2 >> 8) & 0xFF;

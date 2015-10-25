@@ -19,46 +19,77 @@ public abstract class Macro extends Thread implements MouseListener,
     private long startTime;
     private boolean paused;
 
+    /**
+     * Method which handles what happens at the start of a macro.
+     */
     public void atStart() {
     }
 
+    /**
+     * Method which handles what happens at the end of a macro.
+     */
     public void atEnd() {
     }
 
+    /**
+     * @return The starting time of the macro.
+     */
     public long startTime() {
         return startTime;
     }
 
+    /**
+     * @return The runtime of the macro.
+     */
     public long runtime() {
         return Time.millis() - startTime;
     }
 
     public abstract int loop();
 
+    /**
+     * @return The macro's manifest file.
+     */
     public Manifest manifest() {
         return getClass().getAnnotation(Manifest.class);
     }
 
-
+    /**
+     * @return The macro's PixelOperator.
+     */
     public PixelOperator operator() {
         return RuneScape.pixels().operator();
     }
 
+    /**
+     * Sets the macro's pause state.
+     *
+     * @param paused <t>true</t> to pause the macro; otherwise, <t>false</t>.
+     */
     public void setPaused(boolean paused) {
         this.paused = paused;
     }
 
+    /**
+     * Interrupts the macro.
+     */
     @Override
     public void interrupt() {
         super.interrupt();
         interrupted = true;
     }
 
+    /**
+     * @return <t>true</t> if the macro is interrupted; otherwise, <t>false</t>.
+     */
     @Override
     public boolean isInterrupted() {
         return interrupted;
     }
 
+    /**
+     * Handles the running of the macro.
+     */
     @Override
     public final void run() {
         startTime = Time.millis();
@@ -85,6 +116,12 @@ public abstract class Macro extends Thread implements MouseListener,
         MacroSelector.unsetMacro();
     }
 
+    /**
+     * Submits a callback.
+     *
+     * @param everyMillis   The number of milliseconds to run the callback.
+     * @param callback      The callback to submit.
+     */
     public final void addRuntimeCallback(long everyMillis, Runnable callback) {
         new Thread(() -> {
             while (!interrupted) {
@@ -100,6 +137,11 @@ public abstract class Macro extends Thread implements MouseListener,
         }).start();
     }
 
+    /**
+     * Handles the dispatched mouse and key events.
+     *
+     * @param e The AWTEvent to handle.
+     */
     public final void handle(AWTEvent e) {
         if (e instanceof MouseEvent) {
             if (e instanceof MouseWheelEvent) {

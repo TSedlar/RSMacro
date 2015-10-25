@@ -21,6 +21,11 @@ public class Bank {
         return RSMacro.instance().selector().dataSelector().bank();
     }
 
+    /**
+     * Tells us if the bank is currently open.
+     *
+     * @return <t>true</t> if the bank is currently open; otherwise, <t>false</t>.
+     */
     public static boolean open() {
         if (!Camera.setAngle(model().angle().value)) {
             return false;
@@ -38,6 +43,11 @@ public class Bank {
         }
     }
 
+    /**
+     * Tells us if the bank is currently being viewed.
+     *
+     * @return <t>true</t> if we are viewing the bank; otherwise, <t>false</t>.
+     */
     public static boolean viewing() {
         return RuneScape.pixels().operator().builder()
                 .bounds(22, 10, 319, 25)
@@ -45,6 +55,11 @@ public class Bank {
                 .query().count() > 0;
     }
 
+    /**
+     * Tells us if the bank pin screen is being shown.
+     *
+     * @return <t>true</t> if the bank pin screen is open; otherwise, <t>false</t>.
+     */
     public static boolean viewingPin() {
         return RuneScape.pixels().operator().builder()
                 .bounds(425, 32, 67, 19)

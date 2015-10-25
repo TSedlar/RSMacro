@@ -127,6 +127,7 @@ public class Executor {
         builder.append(SPACE);
         builder.append(application.getCanonicalName());
         String command = builder.toString();
+        System.out.println(command);
         Runtime runtime = Runtime.getRuntime();
         try {
             Process process;

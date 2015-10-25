@@ -11,6 +11,9 @@ public abstract class LoopTask {
 
     public abstract int loop();
 
+    /**
+     * Handles running of the LoopTask.
+     */
     public final void start() {
         if (running) {
             return;
@@ -32,6 +35,9 @@ public abstract class LoopTask {
         this.thread.start();
     }
 
+    /**
+     * Handles stopping of the LoopTask.
+     */
     public final void stop() {
         if (!running) {
             return;

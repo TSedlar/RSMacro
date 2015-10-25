@@ -20,6 +20,13 @@ public class MousePaint {
     private static final ArrayList<MouseWave> WAVES = new ArrayList<>();
     private static final BasicStroke OVAL_STROKE = new BasicStroke(2);
 
+    /**
+     * Draws an oval mouse.
+     *
+     * @param g     The Graphics2D object to draw with.
+     * @param outer The oval's outer color.
+     * @param inner The oval's inner color.
+     */
     public static void drawOval(Graphics2D g, Color outer, Color inner) {
         int mx = Mouse.x(), my = Mouse.y();
         g.setStroke(OVAL_STROKE);
@@ -29,6 +36,12 @@ public class MousePaint {
         g.fillOval((int) (mx - 0.5D), (int) (my - 0.5D), 3, 3);
     }
 
+    /**
+     * Draws mouse waves.
+     *
+     * @param g     The Graphics2D object to draw with.
+     * @param color The color to be set.
+     */
     public static void drawMouseWaves(Graphics2D g, Color color) {
         Point mouse = Mouse.location();
         long pressTime = (Time.millis() - Mouse.pressTime());
@@ -47,6 +60,12 @@ public class MousePaint {
         WAVES.removeAll(fails);
     }
 
+    /**
+     * Draws a mouse trail.
+     *
+     * @param g     The Graphics2D object to draw with.
+     * @param color The mouse trail's color.
+     */
     public static void drawTrail(Graphics2D g, Color color) {
         Point mouse = Mouse.location();
         List<MouseTrailPoint> keeps = TRAIL.stream().filter(p -> p != null && p.draw(g))
@@ -71,16 +90,32 @@ public class MousePaint {
         private int size;
         private int alpha = 255;
 
+        /**
+         * Constructs a MouseWave with the following arguments:
+         *
+         * @param color     The color to be set.
+         * @param point     The wave's location.
+         * @param startSize The starting size of the wave.
+         */
         public MouseWave(Color color, Point point, int startSize) {
             this.color = color;
             this.point = point;
             this.size = startSize;
         }
 
+        /**
+         * @return The location of the wave.
+         */
         public Point location() {
             return point;
         }
 
+        /**
+         * Draws a MouseWave.
+         *
+         * @param g The Graphics2D object to draw with.
+         * @return <t>true</t> if the wave was drawn; otherwise, <t>false</t>.
+         */
         public boolean draw(Graphics2D g) {
             if (!RuneScape.validatePoint(point)) {
                 return false;
@@ -109,12 +144,25 @@ public class MousePaint {
 
         private int alpha = 255;
 
+        /**
+         * Constructs a MouseTrailPoint with the following arguments:
+         *
+         * @param color The color to be set.
+         * @param start The starting Point.
+         * @param end   The end Point.
+         */
         public MouseTrailPoint(Color color, Point start, Point end) {
             this.color = color;
             this.start = start;
             this.end = end;
         }
 
+        /**
+         * Draws the MouseTrailPoint.
+         *
+         * @param g The Graphics2D object to draw with.
+         * @return <t>true</t> if the MouseTrailPoint was drawn; otherwise, <t>false</t>.
+         */
         public boolean draw(Graphics2D g) {
             if (!RuneScape.validatePoint(start) || !RuneScape.validatePoint(end)) {
                 return false;

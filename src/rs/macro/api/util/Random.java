@@ -191,17 +191,37 @@ public class Random {
         return RANDOM.nextLong();
     }
 
+    /**
+     * Gets a random element from the varargs.
+     *
+     * @param elements  The vararg list to query.
+     * @param <T>       Wildcard.
+     * @return The random next element within the varargs.
+     */
     @SafeVarargs
     public static <T> T nextElement(T... elements) {
         return elements[nextInt(elements.length - 1)];
     }
 
+    /**
+     * Gets a random element from the Collection of elements.
+     *
+     * @param elements  The Collection of elements to query.
+     * @param <T>       Wildcard.
+     * @return The random next element from the Collection of elements.
+     */
     @SuppressWarnings("unchecked")
     public static <T> T nextElement(Collection<T> elements) {
         Object[] array = elements.toArray();
         return (T) nextElement(array);
     }
 
+    /**
+     * Gets a random Point from within the specified Shape.
+     *
+     * @param shape The Shape.
+     * @return A random point within the Shape.
+     */
     public static Point nextPoint(Shape shape) {
         return nextElement(Shapes.pointsFor(shape));
     }

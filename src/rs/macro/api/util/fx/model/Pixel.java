@@ -18,6 +18,14 @@ public class Pixel {
     public final int rgb, tolerance, xOff, yOff;
     public final Color color;
 
+    /**
+     * Constructs a Pixel with the following arguments:
+     *
+     * @param color     The rbg color.
+     * @param tolerance The pixel's tolerance.
+     * @param xOff      The x offset.
+     * @param yOff      The y offset.
+     */
     public Pixel(int color, int tolerance, int xOff, int yOff) {
         this.rgb = color;
         this.tolerance = tolerance;
@@ -26,14 +34,34 @@ public class Pixel {
         this.color = new Color(color);
     }
 
+    /**
+     * Constructs a Pixel with the following arguments:
+     *
+     * @param rgb       The rbg color.
+     * @param tolerance The pixel's tolerance.
+     */
     public Pixel(int rgb, int tolerance) {
         this(rgb, tolerance, 0, 0);
     }
 
+    /**
+     * Constructs a Pixel with the following arguments:
+     *
+     * @param hex       The hexadecimal String representation of the color.
+     * @param tolerance The pixel's tolerance.
+     * @param xOff      The x offset.
+     * @param yOff      The y offset.
+     */
     public Pixel(String hex, int tolerance, int xOff, int yOff) {
         this(Colors.hexToRGB(hex), tolerance, xOff, yOff);
     }
 
+    /**
+     * Constructs a Pixel with the following arguments:
+     *
+     * @param hex       The hexadecimal String representation of the color.
+     * @param tolerance The pixel's tolerance.
+     */
     public Pixel(String hex, int tolerance) {
         this(hex, tolerance, 0, 0);
     }
@@ -45,6 +73,12 @@ public class Pixel {
                 String.format(TO_STRING_FORMAT, hex, tolerance, xOff, yOff);
     }
 
+    /**
+     * Constructs a Pixel from the following argument:
+     *
+     * @param string The String representation of the color.
+     * @return The Pixel representation of the String.
+     */
     public static Pixel fromString(String string) {
         String[] strings = string.split(SLASH);
         String color = strings[0];
