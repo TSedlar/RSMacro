@@ -28,7 +28,7 @@ public class PixelBuilder {
     private PixelModel model;
 
     /**
-     * Constructs a PixelBuilder with the following argument:
+     * Creates a default PixelBuilder with the given PixelOperator.
      *
      * @param operator The PixelOperator.
      */
@@ -38,9 +38,9 @@ public class PixelBuilder {
     }
 
     /**
-     * Constructs an empty PixelBuilder.
+     * Clears out this PixelBuilder.
      *
-     * @return A cleared PixelBuilder.
+     * @return This PixelBuilder with the default variables.
      */
     public PixelBuilder clear() {
         this.sx = 0;
@@ -54,13 +54,13 @@ public class PixelBuilder {
     }
 
     /**
-     * Constructs a PixelBuilder with the following arguments:
+     * Allows this PixelBuilder to only query within the given bounds.
      *
      * @param x The x coordinate.
      * @param y The y coordinate.
      * @param w The width.
      * @param h The height.
-     * @return A PixelBuilder representation of the specified arguments.
+     * @return This PixelBuilder chained with the given bounds.
      */
     public PixelBuilder bounds(int x, int y, int w, int h) {
         this.sx = x;
@@ -71,20 +71,20 @@ public class PixelBuilder {
     }
 
     /**
-     * Constructs a PixelBuilder with the following argument:
+     * Allows this PixelBuilder to only query within the given bounds.
      *
      * @param bounds The bounding Rectangle.
-     * @return A PixelBuilder representation using the specified Rectangle.
+     * @return This PixelBuilder chained with the given bounds.
      */
     public PixelBuilder bounds(Rectangle bounds) {
         return bounds(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     /**
-     * Constructs a PixelBuilder with the following argument:
+     * Allows this PixelBuilder to only query with the given filter.
      *
      * @param rgbFilter The rbg filter.
-     * @return A PixelBuilder representation using the specified Filter.
+     * @return This PixelBuilder chained with the given filter.
      */
     public PixelBuilder filter(Filter<Integer> rgbFilter) {
         this.rgbFilter = rgbFilter;
@@ -92,11 +92,11 @@ public class PixelBuilder {
     }
 
     /**
-     * Constructs a PixelBuilder with the following arguments:
+     * Allows this PixelBuilder to only query pixels matching the given arguments.
      *
      * @param rgb The rbg color.
-     * @param avg The average color.
-     * @return The PixelBuilder representation using the specified arguments.
+     * @param avg The average color distance.
+     * @return This PixelBuilder chained with a filter matching the given arguments.
      */
     public PixelBuilder avgFilter(int rgb, int avg) {
         this.rgbFilter = (i) -> Colors.average(i, rgb) <= avg;
@@ -104,11 +104,11 @@ public class PixelBuilder {
     }
 
     /**
-     * Constructs a PixelBuilder with the following arguments:
+     * Allows this PixelBuilder to only query pixels matching the given arguments.
      *
      * @param rgb The rbg color.
-     * @param tol The color tolerance.
-     * @return The PixelBuilder representation using the specified arguments.
+     * @param tol The color tolerance distance.
+     * @return This PixelBuilder chained with a filter matching the given arguments.
      */
     public PixelBuilder tolFilter(int rgb, int tol) {
         this.rgbFilter = (i) -> Colors.tolerance(i, rgb) <= tol;
@@ -116,10 +116,10 @@ public class PixelBuilder {
     }
 
     /**
-     * Constructs a PixelBuilder with the following argument:
+     * Allows this PixelBuilder to only query pixels matching the given filter.
      *
      * @param locationFilter The location DualFilter.
-     * @return The PixelBuilder representation using the specified argument.
+     * @return This PixelBuilder chained with the given filter.
      */
     public PixelBuilder filterLocation(DualFilter<Integer, Integer> locationFilter) {
         this.locationFilter = locationFilter;
@@ -127,10 +127,10 @@ public class PixelBuilder {
     }
 
     /**
-     * Constructs a PixelBuilder with the following argument:
+     * Allows this PixelBuilder to only query pixels matching the given PixelModel.
      *
      * @param model The PixelModel to be set.
-     * @return The PixelBuilder representation using the specified PixelModel.
+     * @return This PixelBuilder chained with a filter matching the given PixelModel.
      */
     public PixelBuilder model(PixelModel model) {
         this.model = model;
@@ -150,8 +150,8 @@ public class PixelBuilder {
     /**
      * Constructs a PixelBuilder using the following argument:
      *
-     * @param ticks The number of ticks.
-     * @return The PixelBuilder representation using the specified number of ticks.
+     * @param ticks The number of ticks. (loops 360/ticks)
+     * @return This chained PixelBuilder allowing the PixelModel to be rotatable while querying.
      */
     public PixelBuilder rotatable(int ticks) {
         if (model == null) {
@@ -201,9 +201,9 @@ public class PixelBuilder {
     }
 
     /**
-     * Gets a list of all valid points from the query.
+     * Gets a List of all valid points from the query.
      *
-     * @return The list of valid points of the Stream.
+     * @return The List of valid points of the Stream.
      */
     public List<Point> all() {
         return query().collect(Collectors.toCollection(ArrayList::new));
