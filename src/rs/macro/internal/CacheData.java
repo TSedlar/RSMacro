@@ -26,7 +26,7 @@ public class CacheData {
      *
      * @return The username held within the login.ini file.
      */
-    protected static String user() {
+    public static String user() {
         return user;
     }
 
@@ -35,7 +35,7 @@ public class CacheData {
      *
      * @return The password held within the login.ini file.
      */
-    protected static String pass() {
+    public static String pass() {
         return pass;
     }
 

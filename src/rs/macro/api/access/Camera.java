@@ -18,15 +18,15 @@ public class Camera {
      * @return <t>true</t> if the camera was set to the specified angle; otherwise, <t>false</t>.
      */
     public static boolean setAngle(int angle) {
-        if (Math.abs(Minimap.angle() - angle) <= 5) {
-            return true;
-        }
         if (RuneScape.playing()) {
-            while (Math.abs(Minimap.angle() - angle) > 5) {
-                Keyboard.pressKey((char) KeyEvent.VK_LEFT);
-                Time.sleep(50, 100);
-                Keyboard.releaseKey((char) KeyEvent.VK_LEFT);
+            if (Math.abs(Minimap.angle() - angle) <= 5) {
+                return true;
             }
+            Keyboard.pressKey((char) KeyEvent.VK_LEFT);
+            while (Math.abs(Minimap.angle() - angle) > 5) {
+                Time.sleep(20, 40);
+            }
+            Keyboard.releaseKey((char) KeyEvent.VK_LEFT);
             return Math.abs(Minimap.angle() - angle) <= 5;
         }
         return false;
