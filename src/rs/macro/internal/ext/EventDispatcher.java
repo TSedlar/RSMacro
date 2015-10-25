@@ -1,6 +1,6 @@
 package rs.macro.internal.ext;
 
-import rs.macro.api.methods.Environment;
+import rs.macro.api.access.Environment;
 import rs.macro.api.util.Random;
 import rs.macro.api.util.Time;
 import rs.macro.internal.ui.MacroSelector;

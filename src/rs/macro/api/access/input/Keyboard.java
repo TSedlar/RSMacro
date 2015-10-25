@@ -1,4 +1,4 @@
-package rs.macro.api.methods.input;
+package rs.macro.api.access.input;
 
 import rs.macro.RSMacro;
 

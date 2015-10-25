@@ -3,7 +3,7 @@ package rs.macro.internal.ui;
 import rs.macro.RSMacro;
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
-import rs.macro.api.methods.RuneScape;
+import rs.macro.api.access.RuneScape;
 import rs.macro.internal.mdn.LocalMacroLoader;
 import rs.macro.internal.mdn.MacroDefinition;
 import rs.macro.util.Configuration;

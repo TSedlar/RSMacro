@@ -1,6 +1,6 @@
 package rs.macro.api.util.fx.model;
 
-import rs.macro.api.methods.RuneScape;
+import rs.macro.api.access.RuneScape;
 
 import java.awt.*;
 import java.util.ArrayList;

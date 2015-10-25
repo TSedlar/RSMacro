@@ -1,7 +1,7 @@
-package rs.macro.api.methods.input;
+package rs.macro.api.access.input;
 
 import rs.macro.RSMacro;
-import rs.macro.api.methods.RuneScape;
+import rs.macro.api.access.RuneScape;
 import rs.macro.api.util.Random;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.Shapes;

@@ -1,7 +1,7 @@
 package rs.macro.internal.ui;
 
 import rs.macro.RSMacro;
-import rs.macro.api.methods.Environment;
+import rs.macro.api.access.Environment;
 
 import javax.swing.*;
 

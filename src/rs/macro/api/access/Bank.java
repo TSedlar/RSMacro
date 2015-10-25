@@ -1,8 +1,8 @@
-package rs.macro.api.methods;
+package rs.macro.api.access;
 
 import rs.macro.RSMacro;
 import rs.macro.api.data.BankModel;
-import rs.macro.api.methods.input.Mouse;
+import rs.macro.api.access.input.Mouse;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.model.PixelModel;
 

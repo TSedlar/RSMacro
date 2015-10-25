@@ -1,4 +1,4 @@
-package rs.macro.api.methods;
+package rs.macro.api.access;
 
 import rs.macro.api.util.fx.Colors;
 

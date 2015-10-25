@@ -1,8 +1,8 @@
 package rs.macro.internal.random;
 
 import rs.macro.api.Macro;
-import rs.macro.api.methods.RuneScape;
-import rs.macro.api.methods.input.Mouse;
+import rs.macro.api.access.RuneScape;
+import rs.macro.api.access.input.Mouse;
 import rs.macro.api.util.LoopTask;
 import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;

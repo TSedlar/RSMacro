@@ -1,6 +1,6 @@
-package rs.macro.api.methods;
+package rs.macro.api.access;
 
-import rs.macro.api.methods.input.Keyboard;
+import rs.macro.api.access.input.Keyboard;
 import rs.macro.api.util.Time;
 
 import java.awt.event.KeyEvent;

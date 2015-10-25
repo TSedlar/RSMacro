@@ -1,7 +1,7 @@
 package rs.macro;
 
 import rs.macro.api.Macro;
-import rs.macro.api.methods.Environment;
+import rs.macro.api.access.Environment;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.Time;
 import rs.macro.internal.ext.EventDispatcher;

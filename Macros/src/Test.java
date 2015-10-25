@@ -1,7 +1,7 @@
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
-import rs.macro.api.methods.Bank;
-import rs.macro.api.methods.Camera;
+import rs.macro.api.access.Bank;
+import rs.macro.api.access.Camera;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.fx.MousePaint;
 import rs.macro.api.util.fx.PixelOperator;

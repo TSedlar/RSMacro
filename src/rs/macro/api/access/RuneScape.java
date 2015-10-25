@@ -1,4 +1,4 @@
-package rs.macro.api.methods;
+package rs.macro.api.access;
 
 import rs.macro.api.util.fx.PixelTask;
 import rs.macro.api.util.fx.model.PixelModel;

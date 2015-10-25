@@ -1,8 +1,8 @@
 package rs.macro.internal.random.event;
 
-import rs.macro.api.methods.Bank;
-import rs.macro.api.methods.RuneScape;
-import rs.macro.api.methods.input.Mouse;
+import rs.macro.api.access.Bank;
+import rs.macro.api.access.RuneScape;
+import rs.macro.api.access.input.Mouse;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.model.PixelModel;

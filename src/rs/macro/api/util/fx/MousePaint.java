@@ -1,7 +1,7 @@
 package rs.macro.api.util.fx;
 
-import rs.macro.api.methods.RuneScape;
-import rs.macro.api.methods.input.Mouse;
+import rs.macro.api.access.RuneScape;
+import rs.macro.api.access.input.Mouse;
 import rs.macro.api.util.Time;
 
 import java.awt.*;
