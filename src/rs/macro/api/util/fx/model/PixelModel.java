@@ -84,4 +84,18 @@ public class PixelModel {
         }
         return builder.toString();
     }
+
+    /**
+     * Draws the PixelModel at the given location.
+     *
+     * @param g The Graphics2D object to draw on.
+     * @param x The X coordinate.
+     * @param y The Y coordinate.
+     */
+    public void draw(Graphics2D g, int x, int y) {
+        for (Pixel pixel : pixels) {
+            g.setColor(pixel.color);
+            g.fillRect(x + pixel.xOff, y + pixel.yOff, 1, 1);
+        }
+    }
 }

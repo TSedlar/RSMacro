@@ -134,7 +134,8 @@ public class PixelBuilder {
      */
     public PixelBuilder model(PixelModel model) {
         this.model = model;
-        this.rgbFilter = (i) -> Colors.tolerance(model.root.rgb, i) <= model.root.tolerance;
+        this.rgbFilter = (i) -> model != null && Colors.tolerance(model.root.rgb, i) <=
+                model.root.tolerance;
         this.locationFilter = (x, y) -> {
             for (Pixel pixel : model.pixels) {
                 int pixelColor = operator.at(x + pixel.xOff, y + pixel.yOff);
@@ -197,7 +198,7 @@ public class PixelBuilder {
      * @return The first point of the Stream.
      */
     public Point first() {
-        return query().findFirst().get();
+        return query().findFirst().orElse(null);
     }
 
     /**
