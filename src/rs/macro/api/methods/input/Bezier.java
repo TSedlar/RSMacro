@@ -11,10 +11,11 @@ import java.util.List;
 public class Bezier {
 
     /**
+     * Gets the cubic point using the following arguments:
      *
-     * @param cp
-     * @param t
-     * @return
+     * @param cp The control Point array.
+     * @param t Theta.
+     * @return The cubic Point.
      */
     private static Point cubic(Point[] cp, double t) {
         double curve = 3D;
@@ -38,8 +39,8 @@ public class Bezier {
      * @param startY The starting y position.
      * @param targetX The ending x position.
      * @param targetY The ending y position.
-     * @param cp1
-     * @param cp2
+     * @param cp1 The first cubic Point.
+     * @param cp2 The second cubic Point.
      * @return The list of points representing the Bezier curve.
      */
     public static List<Point> generate(int startX, int startY, int targetX, int targetY,
@@ -62,8 +63,8 @@ public class Bezier {
      *
      * @param targetX The ending x position.
      * @param targetY The ending y position.
-     * @param cp1
-     * @param cp2
+     * @param cp1 The first cubic Point.
+     * @param cp2 The second cubic Point.
      * @return The list of points representing the Bezier curve.
      */
     public static List<Point> generate(int targetX, int targetY, Point cp1, Point cp2) {
@@ -73,8 +74,8 @@ public class Bezier {
     /**
      * Generates a list of points along the Bezier curve
      *
-     * @param ex
-     * @param ey
+     * @param ex The ending x coordinate.
+     * @param ey The ending y coordinate.
      * @return The list of points representing the Bezier curve.
      */
     public static List<Point> generate(int ex, int ey) {
