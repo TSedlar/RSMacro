@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * @author Tyler Sedlar
@@ -49,13 +50,10 @@ public class Imaging {
         boolean alpha = image.getAlphaRaster() != null;
         int length = (alpha ? 4 : 3);
         int[] compressed = new int[pixels.length / length];
-        Stream.iterate(0, n -> n + length)
-                .limit(pixels.length / length)
-                .map(i -> {
-                    int argb = pixelBytesToARGB(pixels, i, alpha);
-                    compressed[i / length] = argb;
-                    return argb;
-                }).count();
+        for (int i = 0; i < (pixels.length / length); i += length) {
+            int argb = pixelBytesToARGB(pixels, i, alpha);
+            compressed[i / length] = argb;
+        }
         return compressed;
     }
 
@@ -73,19 +71,16 @@ public class Imaging {
             return EMPTY_STREAM;
         }
         int w = image.getWidth(), h = image.getHeight();
-        return Stream.iterate(0, n -> ++n)
-                .limit(pixels.length)
-                .filter(i -> {
-                    int x = i % w;
-                    int y = (i / w) % h;
-                    int argb = pixels[i];
-                    return pixelFilter.accept(x, y, argb);
-                })
-                .map(i -> {
-                    int x = i % w;
-                    int y = (i / w) % h;
-                    return new Point(x, y);
-                });
+        List<Point> points = new ArrayList<>();
+        for (int i = 0; i < pixels.length; i++) {
+            int x = i % w;
+            int y = (i / w) % h;
+            int argb = pixels[i];
+            if (pixelFilter.accept(x, y, argb)) {
+                points.add(new Point(x, y));
+            }
+        }
+        return points.stream();
     }
 
     /**

@@ -65,7 +65,7 @@ public class Inventory {
         return RuneScape.pixels().operator().builder()
                 .bounds(SLOTS[slot])
                 .tolFilter(INV_BORDER_RGB, 1)
-                .first() != null;
+                .query().findAny().orElse(null) != null;
     }
 
     /**

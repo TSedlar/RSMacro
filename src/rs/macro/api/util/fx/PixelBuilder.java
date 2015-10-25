@@ -1,12 +1,12 @@
 package rs.macro.api.util.fx;
 
-import rs.macro.api.util.Imaging;
 import rs.macro.api.util.filter.DualFilter;
 import rs.macro.api.util.filter.Filter;
 import rs.macro.api.util.fx.model.Pixel;
 import rs.macro.api.util.fx.model.PixelModel;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +17,8 @@ import java.util.stream.Stream;
  * @since 10/21/15
  */
 public class PixelBuilder {
+
+    private static final Stream<Point> EMPTY_STREAM = new ArrayList<Point>().stream();
 
     private final PixelOperator operator;
 
@@ -187,9 +189,25 @@ public class PixelBuilder {
      * @return A Stream of points that match the criteria of the PixelBuilder.
      */
     public Stream<Point> query() {
-        return Imaging.query(operator.image(), operator.pixels(), (x, y, rgb) ->
-                boundFilter.accept(x, y) && (rgbFilter == null || rgbFilter.accept(rgb)) &&
-                        (locationFilter == null || locationFilter.accept(x, y)));
+        BufferedImage image = operator.image();
+        if (image == null) {
+            return EMPTY_STREAM;
+        }
+        int[] pixels = operator.pixels();
+        int w = image.getWidth(), h = image.getHeight();
+        List<Point> points = new ArrayList<>();
+        for (int i = 0; i < pixels.length; i++) {
+            int x = i % w;
+            int y = (i / w) % h;
+            if (boundFilter.accept(x, y)) {
+                int argb = pixels[i];
+                if ((rgbFilter == null || rgbFilter.accept(argb)) &&
+                        (locationFilter == null || locationFilter.accept(x, y))) {
+                    points.add(new Point(x, y));
+                }
+            }
+        }
+        return points.stream();
     }
 
     /**
@@ -199,6 +217,15 @@ public class PixelBuilder {
      */
     public Point first() {
         return query().findFirst().orElse(null);
+    }
+
+    /**
+     * Gets any valid Point from the query.
+     *
+     * @return Any valid Point from the query.
+     */
+    public Point any() {
+        return query().findAny().orElse(null);
     }
 
     /**
