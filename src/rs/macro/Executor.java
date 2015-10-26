@@ -54,7 +54,7 @@ public class Executor {
 //                macFlags.append(QUOTE);
 //                macFlags.append(SPACE);
 //            }
-            macFlags.append("-Dcom.apple.macos.useScreenMenuBar=true");
+            macFlags.append("-Dapple.laf.useScreenMenuBar=true");
             macFlags.append(SPACE);
             flags.add(macFlags.toString());
         }
