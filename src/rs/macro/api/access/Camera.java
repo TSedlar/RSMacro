@@ -1,6 +1,7 @@
 package rs.macro.api.access;
 
 import rs.macro.api.access.input.Keyboard;
+import rs.macro.api.access.minimap.Minimap;
 import rs.macro.api.util.Time;
 
 import java.awt.event.KeyEvent;

@@ -138,7 +138,11 @@ public class PixelBuilder {
         this.model = model;
         this.rgbFilter = (i) -> model != null && Colors.tolerance(model.root.rgb, i) <=
                 model.root.tolerance;
+        final DualFilter<Integer, Integer> cachedFilter = this.locationFilter;
         this.locationFilter = (x, y) -> {
+            if (cachedFilter != null && !cachedFilter.accept(x, y)) {
+                return false;
+            }
             for (Pixel pixel : model.pixels) {
                 int pixelColor = operator.at(x + pixel.xOff, y + pixel.yOff);
                 if (Colors.tolerance(pixel.rgb, pixelColor) > pixel.tolerance) {
