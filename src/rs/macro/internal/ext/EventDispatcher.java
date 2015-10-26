@@ -30,7 +30,7 @@ public class EventDispatcher {
      */
     public EventDispatcher(GameCanvas canvas) {
         this.canvas = canvas;
-        canvas.requestFocusInWindow();
+        canvas.requestFocus();
         queue = Toolkit.getDefaultToolkit().getSystemEventQueue();
         MouseListener mouseListener = canvas.getMouseListeners()[0];
         MouseMotionListener motionListener = canvas.getMouseMotionListeners()[0];
@@ -58,49 +58,47 @@ public class EventDispatcher {
                         if (!evt.getSource().equals(canvas)) {
                             super.dispatchEvent(evt);
                         }
-                        return;
-                    } else if (consumed) {
-                        return;
-                    } else {
+                    } else if (!consumed) {
                         super.dispatchEvent(evt);
-                        return;
                     }
-                }
-                evt.setSource(canvas);
-                if (evt instanceof MouseEvent) {
-                    MouseEvent e = (MouseEvent) evt;
-                    if (e.getID() == MouseEvent.MOUSE_PRESSED) {
-                        mouseListener.mousePressed(e);
-                    } else if (e.getID() == MouseEvent.MOUSE_RELEASED) {
-                        mouseListener.mouseReleased(e);
-                    } else if (e.getID() == MouseEvent.MOUSE_CLICKED) {
-                        mouseListener.mouseClicked(e);
-                    } else if (e.getID() == MouseEvent.MOUSE_ENTERED) {
-                        mouseListener.mouseEntered(e);
-                    } else if (e.getID() == MouseEvent.MOUSE_EXITED) {
-                        mouseListener.mouseExited(e);
-                    } else if (e.getID() == MouseEvent.MOUSE_MOVED) {
-                        motionListener.mouseMoved(e);
-                    } else if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
-                        motionListener.mouseDragged(e);
-                    } else if (e instanceof MouseWheelEvent) {
-                        wheelListener.mouseWheelMoved((MouseWheelEvent) e);
-                    }
-                } else if (evt instanceof KeyEvent) {
-                    KeyEvent e = (KeyEvent) evt;
-                    if (e.getID() == KeyEvent.KEY_PRESSED) {
-                        keyListener.keyPressed(e);
-                    } else if (e.getID() == KeyEvent.KEY_TYPED) {
-                        keyListener.keyTyped(e);
-                    } else if (e.getID() == KeyEvent.KEY_RELEASED) {
-                        keyListener.keyReleased(e);
-                    }
-                } else if (evt instanceof FocusEvent) {
-                    FocusEvent e = (FocusEvent) evt;
-                    if (e.getID() == FocusEvent.FOCUS_GAINED) {
-                        focusListener.focusGained(e);
-                    } else if (e.getID() == FocusEvent.FOCUS_LOST) {
-                        focusListener.focusLost(e);
+                } else {
+                    evt.setSource(canvas);
+                    if (evt instanceof MouseEvent) {
+                        MouseEvent e = (MouseEvent) evt;
+                        if (e.getID() == MouseEvent.MOUSE_PRESSED) {
+                            mouseListener.mousePressed(e);
+                        } else if (e.getID() == MouseEvent.MOUSE_RELEASED) {
+                            mouseListener.mouseReleased(e);
+                        } else if (e.getID() == MouseEvent.MOUSE_CLICKED) {
+                            mouseListener.mouseClicked(e);
+                        } else if (e.getID() == MouseEvent.MOUSE_ENTERED) {
+                            mouseListener.mouseEntered(e);
+                        } else if (e.getID() == MouseEvent.MOUSE_EXITED) {
+                            mouseListener.mouseExited(e);
+                        } else if (e.getID() == MouseEvent.MOUSE_MOVED) {
+                            motionListener.mouseMoved(e);
+                        } else if (e.getID() == MouseEvent.MOUSE_DRAGGED) {
+                            motionListener.mouseDragged(e);
+                        } else if (e instanceof MouseWheelEvent) {
+                            wheelListener.mouseWheelMoved((MouseWheelEvent) e);
+                        }
+                    } else if (evt instanceof KeyEvent) {
+                        KeyEvent e = (KeyEvent) evt;
+                        if (e.getID() == KeyEvent.KEY_PRESSED) {
+                            keyListener.keyPressed(e);
+                        } else if (e.getID() == KeyEvent.KEY_TYPED) {
+                            keyListener.keyTyped(e);
+                        } else if (e.getID() == KeyEvent.KEY_RELEASED) {
+                            keyListener.keyReleased(e);
+                        }
+                    } else if (evt instanceof FocusEvent) {
+                        FocusEvent e = (FocusEvent) evt;
+                        if (e.getID() == FocusEvent.FOCUS_GAINED) {
+                            focusListener.focusGained(e);
+                        } else if (e.getID() == FocusEvent.FOCUS_LOST) {
+                            System.out.println("Focus would be lost.");
+//                            focusListener.focusLost(e);
+                        }
                     }
                 }
             }
@@ -227,10 +225,10 @@ public class EventDispatcher {
      * @param timeOffset The time to delay.
      * @return A KeyEvent with the given arguments.
      */
-    private KeyEvent generateKeyEvent(int key, int type, int timeOffset) {
+    private AWTEvent generateKeyEvent(int key, int type, int timeOffset) {
         KeyStroke stroke = KeyStroke.getKeyStroke(key, 0);
-        return new KeyEvent(canvas, type, System.currentTimeMillis() + timeOffset,
-                stroke.getModifiers(), stroke.getKeyCode(), stroke.getKeyChar());
+        return mask(new KeyEvent(canvas, type, System.currentTimeMillis() + timeOffset,
+                stroke.getModifiers(), stroke.getKeyCode(), stroke.getKeyChar()));
     }
 
     /**
@@ -241,10 +239,10 @@ public class EventDispatcher {
      * @param timeOffset The time to delay.
      * @return A KeyEvent with the given arguments.
      */
-    private KeyEvent generateKeyEvent(char key, int type, int timeOffset) {
+    private AWTEvent generateKeyEvent(char key, int type, int timeOffset) {
         KeyStroke stroke = KeyStroke.getKeyStroke(key);
-        return new KeyEvent(canvas, type, System.currentTimeMillis() + timeOffset,
-                stroke.getModifiers(), stroke.getKeyCode(), key);
+        return mask(new KeyEvent(canvas, type, System.currentTimeMillis() + timeOffset,
+                stroke.getModifiers(), stroke.getKeyCode(), key));
     }
 
     /**

@@ -19,13 +19,20 @@ public class GameCanvas extends Component {
     }
 
     @Override
+    public boolean hasFocus() {
+        return true;
+    }
+
+    @Override
     public Graphics getGraphics() {
         Graphics g = super.getGraphics();
         if (g != null && buffer != null && raw != null) {
             Graphics2D paint = buffer.createGraphics();
             paint.drawImage(raw, 0, 0, null);
             try {
-                render.render(paint);
+                if (render != null) {
+                    render.render(paint);
+                }
             } catch (Exception ignored) {
                 ignored.printStackTrace();
             }

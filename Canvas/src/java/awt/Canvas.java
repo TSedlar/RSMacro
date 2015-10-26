@@ -20,6 +20,11 @@ public class Canvas extends GameCanvas implements Accessible {
     }
 
     @Override
+    public boolean hasFocus() {
+        return true;
+    }
+
+    @Override
     public Graphics getGraphics() {
         return super.getGraphics();
     }
