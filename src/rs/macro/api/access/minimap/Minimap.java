@@ -25,9 +25,6 @@ public class Minimap {
     public static final Point CENTER = new Point((int) BOUNDS.getCenterX() - 2,
             (int) BOUNDS.getCenterY() + 8);
 
-    private static final List<MinimapItem> items = new ArrayList<>();
-    private static final Map<MinimapItem, List<Point>> render = new HashMap<>();
-
     /**
      * @return The compass's center Point.
      */
@@ -62,52 +59,5 @@ public class Minimap {
             return (int) angle;
         }
         return ANGLE_UNDEFINED;
-    }
-
-    /**
-     * Removes all submitted MinimapItems
-     */
-    public static void clearItems() {
-        items.clear();
-    }
-
-    public static void submitItem(MinimapItem item) {
-        items.add(item);
-    }
-
-    /**
-     * Collects all data (points, etc) according to the submitted MinimapItems
-     */
-    public static void collectItemRenderData() {
-        for (MinimapItem item : items) {
-            List<Point> points = RuneScape.pixels().operator().builder()
-                    .filterLocation(BOUNDS::contains)
-                    .tolFilter(item.rgb, item.tolerance)
-                    .all();
-            if (render.containsKey(item)) {
-                render.get(item).clear();
-                render.get(item).addAll(points);
-            } else {
-                render.put(item, points);
-            }
-        }
-    }
-
-    /**
-     * Renders the MinimapItems onto the in-game minimap.
-     *
-     * @param g The graphics to render onto.
-     */
-    public static void render(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fill(BOUNDS);
-        for (Map.Entry<MinimapItem, List<Point>> entry : render.entrySet()) {
-            List<Point> points = entry.getValue();
-            Point[] array = points.toArray(new Point[points.size()]);
-            g.setColor(entry.getKey().display);
-            for (Point p : array) {
-                g.fillRect(p.x, p.y, 1, 1);
-            }
-        }
     }
 }

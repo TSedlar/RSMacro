@@ -164,7 +164,11 @@ public class PixelBuilder {
         if (model == null) {
             throw new IllegalStateException("A PixelModel must be supplied.");
         }
+        final DualFilter<Integer, Integer> cachedFilter = this.locationFilter;
         this.locationFilter = (x, y) -> {
+            if (cachedFilter != null && !cachedFilter.accept(x, y)) {
+                return false;
+            }
             loop:
             for (int i = 0; i < 360; i += (360 / ticks)) {
                 double rads = Math.toRadians(i);
