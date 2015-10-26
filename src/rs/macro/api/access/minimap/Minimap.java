@@ -22,6 +22,8 @@ public class Minimap {
     public static final int COMPASS_RGB = Colors.hexToRGB("#31291D");
 
     public static final Ellipse2D BOUNDS = new Ellipse2D.Double(579, 12, 130, 130);
+    public static final Point CENTER = new Point((int) BOUNDS.getCenterX() - 2,
+            (int) BOUNDS.getCenterY() + 8);
 
     private static final List<MinimapItem> items = new ArrayList<>();
     private static final Map<MinimapItem, List<Point>> render = new HashMap<>();

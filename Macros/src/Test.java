@@ -2,6 +2,7 @@ import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
 import rs.macro.api.access.minimap.Minimap;
 import rs.macro.api.access.minimap.MinimapItem;
+import rs.macro.api.data.PolarTile;
 import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.fx.MousePaint;
@@ -36,6 +37,10 @@ public class Test extends Macro implements Renderable, PixelListener {
         Minimap.submitItem(new MinimapItem("Dark dirt", "#5E5617", 6, new Color(112, 84, 56)));
     }
 
+    private Point p;
+
+    private static final PolarTile tile = new PolarTile(0, 50);
+
     @Override
     public int loop() {
 //        List<Point> players = RuneScape.pixels().operator().builder()
@@ -43,7 +48,8 @@ public class Test extends Macro implements Renderable, PixelListener {
 //                .model(MINIMAP_PLAYER)
 //                .all();
         // ^ check that boundary point doesn't intersect <= 4 dist
-        Minimap.collectItemRenderData();
+//        Minimap.collectItemRenderData();
+        p = tile.point();
         return Random.nextInt(50, 100);
     }
 
@@ -59,7 +65,13 @@ public class Test extends Macro implements Renderable, PixelListener {
         MousePaint.drawMouseWaves(g, MOUSE_WAVE);
         MousePaint.drawTrail(g, MOUSE_TRAIL);
         MousePaint.drawOval(g, MOUSE_OUTER, MOUSE_INNER);
-        Minimap.render(g);
+//        Minimap.render(g);
+        g.setColor(Color.GREEN);
+        g.fillOval(Minimap.CENTER.x - 2, Minimap.CENTER.y - 2, 4, 4);
+        if (p != null) {
+            g.setColor(Color.CYAN);
+            g.fillOval(p.x - 2, p.y - 2, 4, 4);
+        }
     }
 
     @Override
