@@ -1,15 +1,15 @@
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
-import rs.macro.api.access.GameMenu;
-import rs.macro.api.access.input.Keyboard;
-import rs.macro.api.util.Random;
+import rs.macro.api.access.Bank;
+import rs.macro.api.access.Inventory;
 import rs.macro.api.util.Renderable;
-import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.MousePaint;
 import rs.macro.api.util.fx.PixelOperator;
 import rs.macro.api.util.fx.listener.PixelListener;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 /**
  * @author Tyler Sedlar
@@ -24,18 +24,15 @@ public class Test extends Macro implements Renderable, PixelListener {
     private static final Color MOUSE_WAVE = new Color(240, 245, 45);
     private static final Color MOUSE_TRAIL = new Color(200, 85, 70);
 
-    private Rectangle bounds;
-
     @Override
     public void atStart() {
     }
 
     @Override
     public int loop() {
-//        bounds = GameMenu.bounds();
-        Keyboard.typeKey('A');
-        Time.sleep(1000);
-        return Random.nextInt(50, 100);
+        int bank = Bank.idAt(0), inv = Inventory.idAt(0);
+        System.out.println(bank + " - " + inv);
+        return 500;
     }
 
     @Override
@@ -45,10 +42,6 @@ public class Test extends Macro implements Renderable, PixelListener {
         MousePaint.drawMouseWaves(g, MOUSE_WAVE);
         MousePaint.drawTrail(g, MOUSE_TRAIL);
         MousePaint.drawOval(g, MOUSE_OUTER, MOUSE_INNER);
-        if (bounds != null) {
-            g.setColor(Color.GREEN);
-            g.draw(bounds);
-        }
     }
 
     @Override

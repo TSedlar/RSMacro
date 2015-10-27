@@ -95,7 +95,7 @@ public class RSMacro extends JFrame implements Runnable {
         if (randoms == null) {
             randoms = new RandomHandler();
             randoms.submit(new BankPin());
-//            randoms.submit(new Login());
+            randoms.submit(new Login());
         }
         if (isRunningMacro) {
             randoms.start();

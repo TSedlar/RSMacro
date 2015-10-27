@@ -1,5 +1,7 @@
 package rs.macro.api.util;
 
+import rs.macro.internal.random.RandomEvent;
+
 /**
  * @author Tyler Sedlar
  * @since 10/21/15
@@ -11,6 +13,9 @@ public abstract class LoopTask {
 
     public abstract int loop();
 
+    public void atStart() {}
+    public void atEnd() {}
+
     /**
      * Handles running of the LoopTask.
      */
@@ -20,6 +25,7 @@ public abstract class LoopTask {
         }
         this.running = true;
         this.thread = new Thread(() -> {
+            atStart();
             int loop = -1;
             do {
                 try {
@@ -31,6 +37,7 @@ public abstract class LoopTask {
                 }
             } while (loop >= 0 && running);
             stop();
+            atEnd();
         });
         this.thread.start();
     }

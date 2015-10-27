@@ -46,6 +46,16 @@ public class RandomHandler extends LoopTask implements Renderable {
         events.add(event);
     }
 
+    /**
+     * When stopping the handler, all RandomEvents are set to not being solved.
+     */
+    @Override
+    public void atEnd() {
+        for (RandomEvent random : events) {
+            random.solving = false;
+        }
+    }
+
     @Override
     public void render(Graphics2D g) {
         if (current == null) {
