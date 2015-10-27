@@ -10,12 +10,10 @@ import rs.macro.internal.CacheData;
 import rs.macro.internal.random.RandomEvent;
 import rs.macro.internal.random.RandomManifest;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.*;
 
 /**
- * @author Jacob
+ * @author Jacob Doiron
  * @since 10/25/2015
  */
 @RandomManifest(name = "Login Solver", author = "Jacob Doiron", version = "1.0.0")

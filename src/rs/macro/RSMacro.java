@@ -8,7 +8,6 @@ import rs.macro.internal.ext.EventDispatcher;
 import rs.macro.internal.random.RandomEvent;
 import rs.macro.internal.random.RandomHandler;
 import rs.macro.internal.random.event.BankPin;
-import rs.macro.internal.random.event.Login;
 import rs.macro.internal.ui.MacroSelector;
 import rs.macro.internal.ui.Toolbar;
 import rs.macro.util.Configuration;
@@ -95,7 +94,7 @@ public class RSMacro extends JFrame implements Runnable {
         if (randoms == null) {
             randoms = new RandomHandler();
             randoms.submit(new BankPin());
-            randoms.submit(new Login());
+//            randoms.submit(new Login());
         }
         if (isRunningMacro) {
             randoms.start();

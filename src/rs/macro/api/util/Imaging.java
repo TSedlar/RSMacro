@@ -6,8 +6,8 @@ import rs.macro.api.util.fx.Colors;
 import java.awt.*;
 import java.awt.image.*;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Tyler Sedlar
@@ -21,28 +21,28 @@ public class Imaging {
      * Gets the equivalent argb value.
      *
      * @param pixels The pixel byte array.
-     * @param idx The index.
-     * @param alpha The alpha layer.
+     * @param idx    The index.
+     * @param alpha  The alpha layer.
      * @return The equivalent arbg value.
      */
     public static int pixelBytesToARGB(byte[] pixels, int idx, boolean alpha) {
         int startIndex = (alpha ? 0 : -1);
         int argb = 0;
         if (alpha) {
-            argb += (((int) pixels[idx] & 0xff) << 24);
+            argb += (((int) pixels[idx] & 0xFF) << 24);
         } else {
             argb += -16777216;
         }
-        argb += ((int) pixels[idx + (startIndex + 1)] & 0xff);
-        argb += (((int) pixels[idx + (startIndex + 2)] & 0xff) << 8);
-        argb += (((int) pixels[idx + (startIndex + 3)] & 0xff) << 16);
+        argb += ((int) pixels[idx + (startIndex + 1)] & 0xFF);
+        argb += (((int) pixels[idx + (startIndex + 2)] & 0xFF) << 8);
+        argb += (((int) pixels[idx + (startIndex + 3)] & 0xFF) << 16);
         return argb;
     }
 
     /**
      * Compresses pixel bytes to an integer array.
      *
-     * @param image The BufferedImage to query.
+     * @param image  The BufferedImage to query.
      * @param pixels The pixel byte array.
      * @return An integer array of compressed pixel bytes.
      */
@@ -50,9 +50,8 @@ public class Imaging {
         boolean alpha = image.getAlphaRaster() != null;
         int length = (alpha ? 4 : 3);
         int[] compressed = new int[pixels.length / length];
-        for (int i = 0; i < (pixels.length / length); i += length) {
-            int argb = pixelBytesToARGB(pixels, i, alpha);
-            compressed[i / length] = argb;
+        for (int i = 0; i < pixels.length; i += length) {
+            compressed[i / length] = pixelBytesToARGB(pixels, i, alpha);
         }
         return compressed;
     }
@@ -60,8 +59,8 @@ public class Imaging {
     /**
      * Queries a BufferedImage using the following arguments:
      *
-     * @param image The BufferedImage.
-     * @param pixels The pixel integer array.
+     * @param image       The BufferedImage.
+     * @param pixels      The pixel integer array.
      * @param pixelFilter The TriFilter to query with.
      * @return The Stream of points that are valid using the specified arguments.
      */
@@ -109,10 +108,10 @@ public class Imaging {
     /**
      * Gets the arbg value at the specified coordinates.
      *
-     * @param image     The BufferedImage.
-     * @param pixels    The pixel integer array.
-     * @param x         The x coordinate.
-     * @param y         The y coordinate.
+     * @param image  The BufferedImage.
+     * @param pixels The pixel integer array.
+     * @param x      The x coordinate.
+     * @param y      The y coordinate.
      * @return The arbg value at the specified coordinates.
      */
     public static int argbAt(BufferedImage image, int[] pixels, int x, int y) {

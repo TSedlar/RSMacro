@@ -5,10 +5,7 @@ import rs.macro.api.util.fx.Colors;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Tyler Sedlar

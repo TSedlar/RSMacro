@@ -1,7 +1,5 @@
 package rs.macro.api.util;
 
-import rs.macro.internal.random.RandomEvent;
-
 /**
  * @author Tyler Sedlar
  * @since 10/21/15
@@ -13,8 +11,11 @@ public abstract class LoopTask {
 
     public abstract int loop();
 
-    public void atStart() {}
-    public void atEnd() {}
+    public void atStart() {
+    }
+
+    public void atEnd() {
+    }
 
     /**
      * Handles running of the LoopTask.

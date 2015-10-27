@@ -6,11 +6,10 @@ import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.Colors;
 import rs.macro.api.util.fx.model.PixelModel;
 
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 
 /**
- * @author Tyler Sedlar, Jacob
+ * @author Tyler Sedlar, Jacob Doiron
  * @since 5/1/2015
  */
 public class GameMenu {

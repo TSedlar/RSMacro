@@ -9,7 +9,7 @@ import java.awt.*;
  * @since 10/26/15
  */
 public class PolarTile {
- 
+
     public static final int NORTH = 0;
     public static final int NORTH_EAST = 45;
     public static final int EAST = 90;
@@ -18,12 +18,12 @@ public class PolarTile {
     public static final int SOUTH_WEST = 225;
     public static final int WEST = 270;
     public static final int NORTH_WEST = 315;
-    
+
     public static final int MINIMAP_RADIUS = 72;
- 
+
     public final int angle;
     public final int distance;
- 
+
     /**
      * Creates a vector tile based on the game's compass angle.
      *
@@ -37,7 +37,7 @@ public class PolarTile {
         this.angle = angle;
         this.distance = distance;
     }
- 
+
     /**
      * Gets the point on the minimap relative to the given constructor's parameters.
      *
@@ -48,7 +48,7 @@ public class PolarTile {
         return new Point((int) (Minimap.CENTER.x - distance * Math.cos(rads)),
                 (int) (Minimap.CENTER.y - distance * Math.sin(rads)));
     }
- 
+
     /**
      * Gets the angle of a point on the minimap relative to the minimap's center and the compass angle.
      *
@@ -69,7 +69,7 @@ public class PolarTile {
         angle %= 360;
         return (int) angle;
     }
- 
+
     /**
      * Constructs a PolarTile based off the given point.
      *

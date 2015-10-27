@@ -18,8 +18,6 @@ import java.util.stream.Stream;
  */
 public class PixelBuilder {
 
-    private static final Stream<Point> EMPTY_STREAM = new ArrayList<Point>().stream();
-
     private final PixelOperator operator;
 
     private int sx, sy, sw, sh;
@@ -197,21 +195,20 @@ public class PixelBuilder {
      * @return A Stream of points that match the criteria of the PixelBuilder.
      */
     public Stream<Point> query() {
-        BufferedImage image = operator.image();
-        if (image == null) {
-            return EMPTY_STREAM;
-        }
-        int[] pixels = operator.pixels();
-        int w = image.getWidth(), h = image.getHeight();
         List<Point> points = new ArrayList<>();
-        for (int i = 0; i < pixels.length; i++) {
-            int x = i % w;
-            int y = (i / w) % h;
-            if (boundFilter.accept(x, y)) {
-                int argb = pixels[i];
-                if ((rgbFilter == null || rgbFilter.accept(argb)) &&
-                        (locationFilter == null || locationFilter.accept(x, y))) {
-                    points.add(new Point(x, y));
+        BufferedImage image = operator.image();
+        if (image != null) {
+            int[] pixels = operator.pixels();
+            int w = image.getWidth(), h = image.getHeight();
+            for (int i = 0; i < pixels.length; i++) {
+                int x = i % w;
+                int y = (i / w) % h;
+                if (boundFilter.accept(x, y)) {
+                    int argb = pixels[i];
+                    if ((rgbFilter == null || rgbFilter.accept(argb)) &&
+                            (locationFilter == null || locationFilter.accept(x, y))) {
+                        points.add(new Point(x, y));
+                    }
                 }
             }
         }
@@ -265,5 +262,21 @@ public class PixelBuilder {
         }
         return (((alpha / area) << 24) | ((red / area) << 16) | ((green / area) << 8) |
                 ((blue / area)));
+    }
+
+    /**
+     * Converts the pixels array's RGB values into the given palette RGB values.
+     *
+     * @return The pixel array's RGB values converted into the given palette RGB values.
+     */
+    public int[] palette(int[] palette) {
+        List<Point> points = all();
+        int[] pixels = new int[points.size()];
+        for (int i = 0; i < pixels.length; i++) {
+            Point p = points.get(i);
+            int rgb = operator.at(p.x, p.y);
+            pixels[i] = Palettes.selectFromPalette(palette, rgb);
+        }
+        return pixels;
     }
 }

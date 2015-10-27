@@ -194,8 +194,8 @@ public class Random {
     /**
      * Gets a random element from the varargs.
      *
-     * @param elements  The vararg list to query.
-     * @param <T>       Wildcard.
+     * @param elements The vararg list to query.
+     * @param <T>      Wildcard.
      * @return The random next element within the varargs.
      */
     @SafeVarargs
@@ -206,8 +206,8 @@ public class Random {
     /**
      * Gets a random element from the Collection of elements.
      *
-     * @param elements  The Collection of elements to query.
-     * @param <T>       Wildcard.
+     * @param elements The Collection of elements to query.
+     * @param <T>      Wildcard.
      * @return The random next element from the Collection of elements.
      */
     @SuppressWarnings("unchecked")

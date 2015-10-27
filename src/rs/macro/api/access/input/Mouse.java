@@ -105,9 +105,9 @@ public class Mouse {
     /**
      * Moves the mouse to the specified coordinates and clicks the mouse.
      *
-     * @param x     The x coordinate.
-     * @param y     The y coordinate.
-     * @param left  <t>true</t> to left click; otherwise, <t>false</t>.
+     * @param x    The x coordinate.
+     * @param y    The y coordinate.
+     * @param left <t>true</t> to left click; otherwise, <t>false</t>.
      */
     public static void press(int x, int y, boolean left) {
         move(x, y);
@@ -117,8 +117,8 @@ public class Mouse {
     /**
      * Presses the mouse at the specified Point.
      *
-     * @param p     The Point to move to.
-     * @param left  <t>true</t> to left click; otherwise, <t>false</t>.
+     * @param p    The Point to move to.
+     * @param left <t>true</t> to left click; otherwise, <t>false</t>.
      */
     public static void press(Point p, boolean left) {
         press(p.x, p.y, left);
@@ -145,9 +145,9 @@ public class Mouse {
     /**
      * Clicks the mouse at the specified coordinates.
      *
-     * @param x     The x coordinate.
-     * @param y     The y coordinate.
-     * @param left  <t>true</t> to left click; otherwise, <t>false</t>.
+     * @param x    The x coordinate.
+     * @param y    The y coordinate.
+     * @param left <t>true</t> to left click; otherwise, <t>false</t>.
      */
     public static void click(int x, int y, boolean left) {
         move(x, y);
@@ -157,8 +157,8 @@ public class Mouse {
     /**
      * Clicks the mouse at the specified Point.
      *
-     * @param p     The point.
-     * @param left  <t>true</t> to left click; otherwise, <t>false</t>.
+     * @param p    The point.
+     * @param left <t>true</t> to left click; otherwise, <t>false</t>.
      */
     public static void click(Point p, boolean left) {
         click(p.x, p.y, left);
@@ -167,8 +167,8 @@ public class Mouse {
     /**
      * Clicks the mouse within the specified Shape.
      *
-     * @param shape     The Shape.
-     * @param left      <t>true</t> to left click; otherwise, <t>false</t>.
+     * @param shape The Shape.
+     * @param left  <t>true</t> to left click; otherwise, <t>false</t>.
      */
     public static void click(Shape shape, boolean left) {
         click(Random.nextElement(Shapes.pointsFor(shape)), left);
@@ -177,8 +177,8 @@ public class Mouse {
     /**
      * Scrolls the mouse.
      *
-     * @param up        <t>true</t> to scroll up; otherwise, <t>false</t>.
-     * @param clicks    The number of clicks to scroll the mouse.
+     * @param up     <t>true</t> to scroll up; otherwise, <t>false</t>.
+     * @param clicks The number of clicks to scroll the mouse.
      */
     public static void scroll(boolean up, int clicks) {
         RSMacro.instance().dispatcher().scrollMouse(up, clicks);

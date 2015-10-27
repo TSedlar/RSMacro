@@ -97,6 +97,9 @@ public abstract class Macro extends Thread implements MouseListener,
             if (Time.overdue()) {
                 break;
             }
+            if (RuneScape.pixels().operator().image() == null) {
+                Time.sleep(500, 1000);
+            }
             if (paused) {
                 Time.sleep(50, 100);
                 continue;
@@ -119,8 +122,8 @@ public abstract class Macro extends Thread implements MouseListener,
     /**
      * Submits a callback.
      *
-     * @param everyMillis   The number of milliseconds to run the callback.
-     * @param callback      The callback to submit.
+     * @param everyMillis The number of milliseconds to run the callback.
+     * @param callback    The callback to submit.
      */
     public final void addRuntimeCallback(long everyMillis, Runnable callback) {
         new Thread(() -> {

@@ -14,7 +14,7 @@ public class Bezier {
      * Gets the cubic point using the following arguments:
      *
      * @param cp The control Point array.
-     * @param t Theta.
+     * @param t  Theta.
      * @return The cubic Point.
      */
     private static Point cubic(Point[] cp, double t) {
@@ -35,12 +35,12 @@ public class Bezier {
     /**
      * Generates a list of points along the Bezier curve from a start Point to the target Point.
      *
-     * @param startX The starting x position.
-     * @param startY The starting y position.
+     * @param startX  The starting x position.
+     * @param startY  The starting y position.
      * @param targetX The ending x position.
      * @param targetY The ending y position.
-     * @param cp1 The first cubic Point.
-     * @param cp2 The second cubic Point.
+     * @param cp1     The first cubic Point.
+     * @param cp2     The second cubic Point.
      * @return The list of points representing the Bezier curve.
      */
     public static List<Point> generate(int startX, int startY, int targetX, int targetY,
@@ -63,8 +63,8 @@ public class Bezier {
      *
      * @param targetX The ending x position.
      * @param targetY The ending y position.
-     * @param cp1 The first cubic Point.
-     * @param cp2 The second cubic Point.
+     * @param cp1     The first cubic Point.
+     * @param cp2     The second cubic Point.
      * @return The list of points representing the Bezier curve.
      */
     public static List<Point> generate(int targetX, int targetY, Point cp1, Point cp2) {

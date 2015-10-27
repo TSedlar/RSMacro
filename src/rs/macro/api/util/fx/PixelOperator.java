@@ -16,8 +16,8 @@ public class PixelOperator {
     /**
      * Sets data for the PixelOperator.
      *
-     * @param image     The BufferedImage to be set.
-     * @param pixels    The pixel array.
+     * @param image  The BufferedImage to be set.
+     * @param pixels The pixel array.
      */
     public void setData(BufferedImage image, int[] pixels) {
         this.image = image;

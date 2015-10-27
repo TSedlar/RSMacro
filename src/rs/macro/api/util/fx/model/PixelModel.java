@@ -20,8 +20,8 @@ public class PixelModel {
     /**
      * Constructs a PixelModel with the following arguments:
      *
-     * @param root      The root Pixel.
-     * @param pixels    The subsequent pixels.
+     * @param root   The root Pixel.
+     * @param pixels The subsequent pixels.
      */
     public PixelModel(Pixel root, Pixel... pixels) {
         this.root = root;
@@ -60,8 +60,8 @@ public class PixelModel {
     /**
      * Constructs a PixelModel from a list of points and a tolerance.
      *
-     * @param points        The list of points.
-     * @param tolterance    The pixel tolerance.
+     * @param points     The list of points.
+     * @param tolterance The pixel tolerance.
      * @return The PixelModel representation of the list of points and color tolerance.
      */
     public static PixelModel fromPoints(List<Point> points, int tolterance) {

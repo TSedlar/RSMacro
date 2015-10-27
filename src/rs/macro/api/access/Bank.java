@@ -1,8 +1,8 @@
 package rs.macro.api.access;
 
 import rs.macro.RSMacro;
-import rs.macro.api.data.BankModel;
 import rs.macro.api.access.input.Mouse;
+import rs.macro.api.data.BankModel;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.PixelBuilder;
 import rs.macro.api.util.fx.model.PixelModel;
@@ -88,7 +88,7 @@ public class Bank {
     /**
      * Creates a PixelModel of the given slot, excluding shadows/amount/borders.
      *
-     * @param slot The slot index to create a PixelModel for.
+     * @param slot      The slot index to create a PixelModel for.
      * @param tolerance The tolerance distance for each Pixel.
      * @return A PixelModel of the given slot, excluding shadows/amount/borders.
      */

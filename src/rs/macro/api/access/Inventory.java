@@ -31,7 +31,7 @@ public class Inventory {
     /**
      * Creates a PixelModel of the given slot, excluding shadows/amount/borders.
      *
-     * @param slot The slot index to create a PixelModel for.
+     * @param slot      The slot index to create a PixelModel for.
      * @param tolerance The tolerance distance for each Pixel.
      * @return A PixelModel of the given slot, excluding shadows/amount/borders.
      */

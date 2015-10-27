@@ -1,7 +1,7 @@
 package rs.macro.api.util;
 
 /**
- * @author Tyler Sedlar, Jacob
+ * @author Tyler Sedlar, Jacob Doiron
  * @since 4/30/15
  */
 public interface Condition {

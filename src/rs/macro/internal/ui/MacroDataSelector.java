@@ -7,7 +7,7 @@ import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * @author Tyler Sedlar, Jacob
+ * @author Tyler Sedlar, Jacob Doiron
  * @since 5/16/15
  */
 public class MacroDataSelector extends JDialog {

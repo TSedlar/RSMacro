@@ -2,16 +2,15 @@ package rs.macro.api.access;
 
 import rs.macro.api.util.filter.Filter;
 import rs.macro.api.util.fx.Colors;
+import rs.macro.api.util.fx.Palettes;
 import rs.macro.api.util.fx.PixelBuilder;
 import rs.macro.api.util.fx.model.PixelModel;
-import rs.macro.util.Strings;
 
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.List;
 
 /**
- * @author Jacob
+ * @author Jacob Doiron, Tyler Sedlar
  * @since 10/26/2015
  */
 public class Slots {
@@ -26,13 +25,11 @@ public class Slots {
                     Colors.tolerance(rgb, INV_SHADOW_RGB) > 2 &&
                     Colors.tolerance(rgb, AMOUNT_RGB) > 5;
 
-    private static final String TAG = "#", EMPTY = "";
-
     /**
      * Creates a PixelBuilder of the given slot, excluding shadows/amount/borders.
      *
      * @param slots The slots to check.
-     * @param slot The slot index to create a PixelBuilder for.
+     * @param slot  The slot index to create a PixelBuilder for.
      * @return A PixelBuilder of the given slot, excluding shadows/amount/borders.
      */
     public static PixelBuilder createPixelBuilderAt(Rectangle[] slots, int slot) {
@@ -46,8 +43,8 @@ public class Slots {
     /**
      * Creates a PixelModel of the given slot, excluding shadows/amount/borders.
      *
-     * @param slots The slots to check.
-     * @param slot The slot index to create a PixelModel for.
+     * @param slots     The slots to check.
+     * @param slot      The slot index to create a PixelModel for.
      * @param tolerance The tolerance distance for each Pixel.
      * @return A PixelModel of the given slot, excluding shadows/amount/borders.
      */
@@ -60,9 +57,9 @@ public class Slots {
      * Checks if the given slot has an item or not.
      *
      * @param slots The slots to check.
-     * @param rgb The rbg color to look for.
-     * @param tol The tolerance to search with.
-     * @param slot The slot index to check for.
+     * @param rgb   The rbg color to look for.
+     * @param tol   The tolerance to search with.
+     * @param slot  The slot index to check for.
      * @return <t>true</t> if the given slot has an item, otherwise <t>false</t>.
      */
     public static boolean hasItem(Rectangle[] slots, int rgb, int tol, int slot) {
@@ -106,36 +103,32 @@ public class Slots {
      * Gets a visual representation ID of the given slot.
      *
      * @param slots The slots to check.
-     * @param slot The slot index to get an ID for.
+     * @param slot  The slot index to get an ID for.
      * @return A visual representation ID of the given slot.
      */
     public static int idAt(Rectangle[] slots, int slot) {
-        PixelBuilder builder = createPixelBuilderAt(slots, slot);
-        List<Point> points = builder.all();
-        if (points.isEmpty()) {
+        Rectangle bounds = slots[slot];
+        int yLevel = (int) (bounds.y + (bounds.height * 0.75D));
+        PixelBuilder builder = RuneScape.pixels().operator().builder()
+                .filterLocation((x, y) -> bounds.contains(x, y) && x >= (bounds.x + 10) &&
+                                x <= (bounds.x + bounds.width - 10) &&
+                                (y == yLevel || (y >= (bounds.y + 7) && y <= (bounds.y + 10)))
+                )
+                .filter(ITEM_MODEL_FILTER);
+        int[] pixels = builder.palette(Palettes.PALETTE_64);
+        if (pixels.length == 0) {
             return -1;
         }
-        int length = points.size();
-        int minX = points.stream().sorted((a, b) -> a.x - b.x).findFirst().get().x;
-        int maxX = points.stream().sorted((a, b) -> b.x - a.x).findFirst().get().x;
-        int width = (maxX - minX);
-        int minY = points.stream().sorted((a, b) -> a.y - b.y).findFirst().get().y;
-        int maxY = points.stream().sorted((a, b) -> b.y - a.y).findFirst().get().y;
-        int height = (maxY - minY);
-        int median = builder.median();
-        String hex = Colors.rgbToHex(median).replace(TAG, EMPTY);
-        String first = Strings.replaceHexLetters(hex.substring(0, 2));
-        String second = Strings.replaceHexLetters(hex.substring(2, 4));
-        String third = Strings.replaceHexLetters(hex.substring(4, 6));
-        return length + width + height + Integer.parseInt(first) +
-                Integer.parseInt(second) + Integer.parseInt(third);
+        int median = Colors.median(pixels);
+        int r = Colors.red(median), g = Colors.green(median), b = Colors.blue(median);
+        return (r + g + b);
     }
 
     /**
      * Finds the slot with the given item id.
      *
      * @param slots The slots to check.
-     * @param id The id of the item to look for.
+     * @param id    The id of the item to look for.
      * @return The slot with the given item id.
      */
     public static Rectangle findSlot(Rectangle[] slots, int id) {
