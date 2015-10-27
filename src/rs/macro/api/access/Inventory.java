@@ -116,10 +116,11 @@ public class Inventory {
     /**
      * Finds the slot with the given item id.
      *
-     * @param id The id of the item to look for.
+     * @param lowId  The lowest id of the item to look for.
+     * @param highId The highest id of the item to look for.
      * @return The slot with the given item id.
      */
-    public static Rectangle findSlot(int id) {
-        return Slots.findSlot(SLOTS, id);
+    public static Rectangle findSlot(int lowId, int highId) {
+        return Slots.findSlot(SLOTS, lowId, highId);
     }
 }

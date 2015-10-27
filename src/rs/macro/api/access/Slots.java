@@ -127,14 +127,15 @@ public class Slots {
     /**
      * Finds the slot with the given item id.
      *
-     * @param slots The slots to check.
-     * @param id    The id of the item to look for.
+     * @param slots  The slots to check.
+     * @param lowId  The lowest id of the item to look for.
+     * @param highId The highest id of the item to look for.
      * @return The slot with the given item id.
      */
-    public static Rectangle findSlot(Rectangle[] slots, int id) {
+    public static Rectangle findSlot(Rectangle[] slots, int lowId, int highId) {
         for (int i = 0; i < slots.length; i++) {
             int slotId = idAt(slots, i);
-            if (id == slotId) {
+            if (slotId >= lowId && slotId <= highId) {
                 return slots[i];
             }
         }
