@@ -3,6 +3,7 @@ import rs.macro.api.Manifest;
 import rs.macro.api.access.RuneScape;
 import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;
+import rs.macro.api.util.fx.Colors;
 import rs.macro.api.util.fx.MousePaint;
 import rs.macro.api.util.fx.Palettes;
 import rs.macro.api.util.fx.PixelOperator;
@@ -35,12 +36,15 @@ public class Test extends Macro implements Renderable, PixelListener {
     @Override
     public int loop() {
         int width = RuneScape.image().getWidth(), height = RuneScape.image().getHeight();
+        long start = System.nanoTime();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 image.setRGB(x, y,
                         Palettes.selectFromColorBlind(RuneScape.rgbAt(x, y)));
             }
         }
+        long end = System.nanoTime();
+        System.out.println(String.format("%.2f", (end - start) / 1e9));
         return Random.nextInt(5, 10);
     }
 

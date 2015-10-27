@@ -163,12 +163,11 @@ public class Palettes {
      * @return The nearest matching RGB from the given palette.
      */
     public static int selectFromPalette(int[] palette, int rgb) {
-        double lowestDistance = Double.MAX_VALUE;
+        int lowestDistance = Integer.MAX_VALUE;
         int nearestRGB = 0;
         for (int col : palette) {
-            double distance = (double) Colors.distanceSquared(rgb, col) +
-                    (double) Colors.tolerance(rgb, col) + Colors.average(rgb, col);
-            if (lowestDistance == Double.MAX_VALUE || distance < lowestDistance) {
+            int distance = Colors.distanceSquared(rgb, col);
+            if (distance < lowestDistance) {
                 lowestDistance = distance;
                 nearestRGB = col;
             }
