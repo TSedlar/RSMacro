@@ -1,9 +1,7 @@
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
 import rs.macro.api.access.RuneScape;
-import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;
-import rs.macro.api.util.fx.Colors;
 import rs.macro.api.util.fx.MousePaint;
 import rs.macro.api.util.fx.Palettes;
 import rs.macro.api.util.fx.PixelOperator;
@@ -44,8 +42,7 @@ public class Test extends Macro implements Renderable, PixelListener {
             }
         }
         long end = System.nanoTime();
-        System.out.println(String.format("%.2f", (end - start) / 1e9));
-        return Random.nextInt(5, 10);
+        return 0;
     }
 
     @Override
