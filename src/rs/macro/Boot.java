@@ -30,7 +30,8 @@ public class Boot {
                 Streams.transfer(canvas, localCanvas);
             }
         }
-        Executor exec = new Executor(Boot.class, RSMacro.class, Configuration.APPLICATION_NAME)
+        Executor exec = new Executor(Boot.class, RSMacro.class,
+                Configuration.APPLICATION_NAME, null)
                 .flag("-Dsun.java2d.d3d=false")
                 .flag("-XX:SurvivorRatio=4")
                 .flag("-XX:+UseCompressedClassPointers")

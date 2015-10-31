@@ -34,8 +34,9 @@ public class Executor {
      * @param main        The Class that will be calling this class.
      * @param application The Class to be ran.
      * @param appName     The name of the application.
+     * @param appIcon     The path to the application's icon.
      */
-    public Executor(Class<?> main, Class<?> application, String appName) {
+    public Executor(Class<?> main, Class<?> application, String appName, String appIcon) {
         this.main = main;
         this.application = application;
         if (OperatingSystem.get() == OperatingSystem.MAC) {
@@ -47,13 +48,13 @@ public class Executor {
                 macFlags.append(QUOTE);
                 macFlags.append(SPACE);
             }
-//            if (appIcon != null) {
-//                macFlags.append("-Xdock:icon=");
-//                macFlags.append(QUOTE);
-//                macFlags.append(appIcon);
-//                macFlags.append(QUOTE);
-//                macFlags.append(SPACE);
-//            }
+            if (appIcon != null) {
+                macFlags.append("-Xdock:icon=");
+                macFlags.append(QUOTE);
+                macFlags.append(appIcon);
+                macFlags.append(QUOTE);
+                macFlags.append(SPACE);
+            }
             macFlags.append("-Dapple.laf.useScreenMenuBar=true");
             macFlags.append(SPACE);
             flags.add(macFlags.toString());
