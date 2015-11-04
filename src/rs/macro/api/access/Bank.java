@@ -20,6 +20,8 @@ public class Bank {
 
     public static final Rectangle[] SLOTS = {new Rectangle(73, 83, 35, 31), new Rectangle(121, 83, 35, 31), new Rectangle(169, 83, 35, 31), new Rectangle(217, 83, 35, 31), new Rectangle(265, 83, 35, 31), new Rectangle(313, 83, 35, 31), new Rectangle(361, 83, 35, 31), new Rectangle(409, 83, 35, 31), new Rectangle(73, 119, 35, 31), new Rectangle(121, 119, 35, 31), new Rectangle(169, 119, 35, 31), new Rectangle(217, 119, 35, 31), new Rectangle(265, 119, 35, 31), new Rectangle(313, 119, 35, 31), new Rectangle(361, 119, 35, 31), new Rectangle(409, 119, 35, 31), new Rectangle(73, 155, 35, 31), new Rectangle(121, 155, 35, 31), new Rectangle(169, 155, 35, 31), new Rectangle(217, 155, 35, 31), new Rectangle(265, 155, 35, 31), new Rectangle(313, 155, 35, 31), new Rectangle(361, 155, 35, 31), new Rectangle(409, 155, 35, 31), new Rectangle(73, 191, 35, 31), new Rectangle(121, 191, 35, 31), new Rectangle(169, 191, 35, 31), new Rectangle(217, 191, 35, 31), new Rectangle(265, 191, 35, 31), new Rectangle(313, 191, 35, 31), new Rectangle(361, 191, 35, 31), new Rectangle(409, 191, 35, 31), new Rectangle(73, 227, 35, 31), new Rectangle(121, 227, 35, 31), new Rectangle(169, 227, 35, 31), new Rectangle(217, 227, 35, 31), new Rectangle(265, 227, 35, 31), new Rectangle(313, 227, 35, 31), new Rectangle(361, 227, 35, 31), new Rectangle(409, 227, 35, 31), new Rectangle(73, 263, 35, 31), new Rectangle(121, 263, 35, 31), new Rectangle(169, 263, 35, 31), new Rectangle(217, 263, 35, 31), new Rectangle(265, 263, 35, 31), new Rectangle(313, 263, 35, 31), new Rectangle(361, 263, 35, 31), new Rectangle(409, 263, 35, 31)};
 
+    public static final Rectangle CLOSE_BOUNDS = new Rectangle(480, 19, 13, 10);
+
     /**
      * Gets the currently selected bank's BankModel.
      *
@@ -49,6 +51,19 @@ public class Bank {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Closes the bank.
+     *
+     * @return <t>true</t> if the bank was closed, otherwise <t>false</t>.
+     */
+    public static boolean close() {
+        if (!viewing()) {
+            return true;
+        }
+        Mouse.click(CLOSE_BOUNDS, true);
+        return Time.waitFor(2500, () -> !Bank.viewing());
     }
 
     /**
