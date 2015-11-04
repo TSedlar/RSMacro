@@ -1,5 +1,7 @@
 package rs.macro.api.access.input;
 
+import rs.macro.api.util.Arithmetic;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,14 +81,26 @@ public class Bezier {
      * @return The list of points representing the Bezier curve.
      */
     public static List<Point> generate(int ex, int ey) {
-        Point mid = new Point((Mouse.x() + ex) / 2, (Mouse.y() + ey) / 2);
-        Point quarterStart = new Point((Mouse.x() + mid.x) / 2, (Mouse.y() + mid.y) / 2);
-        Point quarterEnd = new Point((ex + mid.x) / 2, (ex + mid.y) / 2);
-        if (ex > Mouse.x()) {
-            quarterStart.y -= (Math.abs(Mouse.y() - quarterStart.y));
-        } else {
-            quarterStart.y += Math.abs(Mouse.y() - quarterStart.y);
-        }
-        return generate(ex, ey, quarterStart, quarterEnd);
+        return generate(Mouse.x(), Mouse.y(), ex, ey);
+    }
+
+    /**
+     * Generates a list of points along the Bezier curve
+     *
+     * @param sx The starting x coordinate.
+     * @param sy The starting y coordinate.
+     * @param ex The ending x coordinate.
+     * @param ey The ending y coordinate.
+     * @return The list of points representing the Bezier curve.
+     */
+    public static List<Point> generate(int sx, int sy, int ex, int ey) {
+        int dist = (int) Arithmetic.distance(sx, sy, ex, ey);
+        float angle = Arithmetic.angleBetween(sx, sy, ex, ey);
+        int angOff = (ex > sx ? -6 : 6);
+        int cp1Dist = (int) (dist * 0.3D);
+        Point cp1 = Arithmetic.polarFrom(Mouse.x(), Mouse.y(), angle + angOff, cp1Dist);
+        int cp2Dist = (int) (dist * 0.7D);
+        Point cp2 = Arithmetic.polarFrom(Mouse.x(), Mouse.y(), angle - angOff, cp2Dist);
+        return generate(sx, sy, ex, ey, cp1, cp2);
     }
 }

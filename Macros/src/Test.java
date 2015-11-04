@@ -1,14 +1,19 @@
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
-import rs.macro.api.access.RuneScape;
+import rs.macro.api.access.GameMenu;
+import rs.macro.api.access.input.Bezier;
+import rs.macro.api.access.input.Mouse;
+import rs.macro.api.access.minimap.Minimap;
+import rs.macro.api.util.Arithmetic;
+import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.fx.MousePaint;
-import rs.macro.api.util.fx.Palettes;
 import rs.macro.api.util.fx.PixelOperator;
 import rs.macro.api.util.fx.listener.PixelListener;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Tyler Sedlar
@@ -23,25 +28,26 @@ public class Test extends Macro implements Renderable, PixelListener {
     private static final Color MOUSE_WAVE = new Color(240, 245, 45);
     private static final Color MOUSE_TRAIL = new Color(200, 85, 70);
 
-    private BufferedImage image = null;
-
     @Override
     public void atStart() {
-        BufferedImage game = RuneScape.fullImage();
-        image = new BufferedImage(game.getWidth(), game.getHeight(), game.getType());
     }
+
+    List<Point> points = new ArrayList<>();
+    Point rand = new Point(400, 400);
+    Point cp1, cp2;
 
     @Override
     public int loop() {
-        int width = RuneScape.image().getWidth(), height = RuneScape.image().getHeight();
-        long start = System.nanoTime();
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                image.setRGB(x, y,
-                        Palettes.selectFromColorBlind(RuneScape.rgbAt(x, y)));
-            }
-        }
-        long end = System.nanoTime();
+        int dist = (int) rand.distance(Mouse.x(), Mouse.y());
+        float angle = Arithmetic.angleBetween(Mouse.x(), Mouse.y(), rand.x, rand.y);
+        int angOff = (rand.x > Mouse.x() ? -6 : 6);
+        int cp1Dist = (int) (dist * 0.3D);
+        cp1 = Arithmetic.polarFrom(Mouse.x(), Mouse.y(), angle + angOff, cp1Dist);
+        int cp2Dist = (int) (dist * 0.7D);
+        cp2 = Arithmetic.polarFrom(Mouse.x(), Mouse.y(), angle - angOff, cp2Dist);
+        List<Point> points = Bezier.generate(rand.x, rand.y, cp1, cp2);
+        this.points.clear();
+        this.points.addAll(points);
         return 0;
     }
 
@@ -52,7 +58,26 @@ public class Test extends Macro implements Renderable, PixelListener {
         MousePaint.drawMouseWaves(g, MOUSE_WAVE);
         MousePaint.drawTrail(g, MOUSE_TRAIL);
         MousePaint.drawOval(g, MOUSE_OUTER, MOUSE_INNER);
-        g.drawImage(image, 0, 0, null);
+        if (rand != null) {
+            g.setColor(Color.RED);
+            g.fillOval(rand.x - 4, rand.y - 4, 8, 8);
+        }
+        if (cp1 != null) {
+            g.setColor(Color.ORANGE);
+            g.fillOval(cp1.x - 4, cp1.y - 4, 8, 8);
+        }
+        if (cp2 != null) {
+            g.setColor(Color.BLUE);
+            g.fillOval(cp2.x - 4, cp2.y - 4, 8, 8);
+        }
+        g.setColor(Color.CYAN);
+        Point[] array = points.toArray(new Point[points.size()]);
+        for (Point p : array) {
+            if (p == null) {
+                continue;
+            }
+            g.fillOval(p.x, p.y , 1, 1);
+        }
     }
 
     @Override
