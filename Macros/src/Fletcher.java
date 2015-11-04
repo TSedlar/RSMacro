@@ -49,6 +49,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
 
     @Override
     public void atStart() {
+        Mouse.setSpeed(1);
     }
 
     private boolean setAngle = false;
@@ -119,20 +120,17 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
 
     private void fletch(Rectangle knife, Rectangle log) {
         if (selecting()) {
-            System.out.println("selecting");
             Mouse.move(TYPE.bounds);
             if (GameMenu.selectIndex(3)) { // Make-X
                 Time.waitFor(2500, this::inputting);
             }
         } else if (inputting()) {
-            System.out.println("inputting");
             Keyboard.send("99");
             if (Time.waitFor(2500, () -> !inputting())) {
                 final AtomicReference<Rectangle> lastSlot =
                         new AtomicReference<>(null);
                 Time.waitFor(60000, () -> {
                     if (leveled()) {
-                        System.out.println("LEVELED UP");
                         return true;
                     }
                     Rectangle slot = Inventory.findSlot(LOG.model);
@@ -144,7 +142,6 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                 });
             }
         } else {
-            System.out.println("using");
             Mouse.click(knife, true);
             Time.sleep(25, 50);
             Mouse.click(log, true);
