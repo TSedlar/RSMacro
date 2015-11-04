@@ -67,7 +67,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                     Bank.close();
                 } else {
                     if (Inventory.count() > 1) {
-                        Mouse.move(Inventory.SLOTS[1]);
+                        Mouse.move(Inventory.SLOTS[Inventory.SLOTS.length - 1]);
                         if (GameMenu.selectIndex(4)) { // Deposit-All
                             Time.waitFor(2500, () -> !Inventory.hasItem(1));
                         }
