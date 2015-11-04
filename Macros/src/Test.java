@@ -7,9 +7,11 @@ import rs.macro.api.access.minimap.Minimap;
 import rs.macro.api.util.Arithmetic;
 import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;
+import rs.macro.api.util.fx.Colors;
 import rs.macro.api.util.fx.MousePaint;
 import rs.macro.api.util.fx.PixelOperator;
 import rs.macro.api.util.fx.listener.PixelListener;
+import rs.macro.api.util.fx.model.PixelModel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,26 +30,21 @@ public class Test extends Macro implements Renderable, PixelListener {
     private static final Color MOUSE_WAVE = new Color(240, 245, 45);
     private static final Color MOUSE_TRAIL = new Color(200, 85, 70);
 
+    private List<Point> points = new ArrayList<>();
+
     @Override
     public void atStart() {
     }
 
-    List<Point> points = new ArrayList<>();
-    Point rand = new Point(400, 400);
-    Point cp1, cp2;
-
     @Override
     public int loop() {
-        int dist = (int) rand.distance(Mouse.x(), Mouse.y());
-        float angle = Arithmetic.angleBetween(Mouse.x(), Mouse.y(), rand.x, rand.y);
-        int angOff = (rand.x > Mouse.x() ? -6 : 6);
-        int cp1Dist = (int) (dist * 0.3D);
-        cp1 = Arithmetic.polarFrom(Mouse.x(), Mouse.y(), angle + angOff, cp1Dist);
-        int cp2Dist = (int) (dist * 0.7D);
-        cp2 = Arithmetic.polarFrom(Mouse.x(), Mouse.y(), angle - angOff, cp2Dist);
-        List<Point> points = Bezier.generate(rand.x, rand.y, cp1, cp2);
+        List<Point> points = operator().builder()
+                .bounds(206, 390, 103, 22)
+                .tolFilter(Colors.hexToRGB("#000000"), 2)
+                .all();
         this.points.clear();
         this.points.addAll(points);
+        System.out.println(PixelModel.fromPoints(points, 2));
         return 0;
     }
 
@@ -58,18 +55,6 @@ public class Test extends Macro implements Renderable, PixelListener {
         MousePaint.drawMouseWaves(g, MOUSE_WAVE);
         MousePaint.drawTrail(g, MOUSE_TRAIL);
         MousePaint.drawOval(g, MOUSE_OUTER, MOUSE_INNER);
-        if (rand != null) {
-            g.setColor(Color.RED);
-            g.fillOval(rand.x - 4, rand.y - 4, 8, 8);
-        }
-        if (cp1 != null) {
-            g.setColor(Color.ORANGE);
-            g.fillOval(cp1.x - 4, cp1.y - 4, 8, 8);
-        }
-        if (cp2 != null) {
-            g.setColor(Color.BLUE);
-            g.fillOval(cp2.x - 4, cp2.y - 4, 8, 8);
-        }
         g.setColor(Color.CYAN);
         Point[] array = points.toArray(new Point[points.size()]);
         for (Point p : array) {
