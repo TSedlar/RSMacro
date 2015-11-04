@@ -95,6 +95,7 @@ public abstract class Macro extends Thread implements MouseListener,
         startTime = Time.millis();
         while (!interrupted) {
             if (Time.overdue()) {
+                System.out.println("Runtime is overdue.");
                 break;
             }
             if (RuneScape.pixels().operator().image() == null) {

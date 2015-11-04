@@ -4,6 +4,7 @@ import rs.macro.api.access.*;
 import rs.macro.api.access.input.Keyboard;
 import rs.macro.api.access.input.Mouse;
 import rs.macro.api.access.minimap.Minimap;
+import rs.macro.api.util.Random;
 import rs.macro.api.util.Renderable;
 import rs.macro.api.util.Time;
 import rs.macro.api.util.fx.MousePaint;
@@ -18,6 +19,8 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Tyler Sedlar
  * @since 10/21/15
+ *
+ * TODO: fail-safe for opening grand-exchange collect
  */
 @Manifest(name = "Fletcher", author = "Tyler", description = "Fletches bows",
         version = "1.0.0", banks = false)
@@ -43,7 +46,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
     private static final Rectangle LEVEL_UP_IFACE_BOUNDS = new Rectangle(18, 360, 490, 72);
 
     private static final Log LOG = Log.WILLOW;
-    private static final FletchType TYPE = FletchType.SHORT_BOW;
+    private static final FletchType TYPE = FletchType.LONG_BOW;
 
     private int fletched = 0;
 
@@ -94,7 +97,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                 }
             }
         }
-        return 0;
+        return Random.nextInt(50, 100);
     }
 
     private boolean selecting() {
