@@ -81,7 +81,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                 } else {
                     if (Inventory.count() > 1) {
                         setStatus("Depositing items");
-                        int slotIndex = (Inventory.SLOTS.length - 1);
+                        int slotIndex = (Inventory.SLOTS.length - 1); // TODO: implement Inventory#findLastSlot
                         Mouse.move(Inventory.SLOTS[slotIndex]);
                         if (GameMenu.selectIndex(4)) { // Deposit-All
                             Time.waitFor(2500, () -> !Inventory.hasItem(slotIndex));
