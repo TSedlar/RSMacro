@@ -158,6 +158,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
             status = "Typing 99";
             Keyboard.send("99");
             if (Time.waitFor(2500, () -> !inputting())) {
+                status = "Fletching bows";
                 final AtomicReference<Rectangle> lastSlot =
                         new AtomicReference<>(null);
                 Time.waitFor(60000, () -> {
