@@ -53,6 +53,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
     private static final FletchType TYPE = FletchType.LONG_BOW;
 
     private int fletched = 0;
+    private String status = "N/A";
 
     @Override
     public void atStart() {
@@ -64,20 +65,25 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
     @Override
     public int loop() {
         if (!setAngle && Math.abs(Minimap.angle() - TARGET_ANGLE) > 5) {
+            status = "Setting angle";
             setAngle = Camera.setAngle(TARGET_ANGLE);
         } else if (collecting()) {
+            status = "Closing collect";
             closeCollect();
         } else {
             if (Bank.viewing()) {
                 if (Inventory.findSlot(LOG.model) != null) {
+                    status = "Closing bank";
                     Bank.close();
                 } else {
                     if (Inventory.count() > 1) {
+                        status = "Depositing items";
                         Mouse.move(Inventory.SLOTS[Inventory.SLOTS.length - 1]);
                         if (GameMenu.selectIndex(4)) { // Deposit-All
                             Time.waitFor(2500, () -> !Inventory.hasItem(1));
                         }
                     } else {
+                        status = "Withdrawing items";
                         Rectangle bounds = Bank.findSlot(LOG.model);
                         if (bounds == null) {
                             System.err.println("You are out of logs.");
@@ -97,8 +103,10 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                 }
                 Rectangle log = Inventory.findSlot(LOG.model);
                 if (log != null) {
+                    status = "Fletching";
                     fletch(knife, log);
                 } else {
+                    status = "Opening bank";
                     openBank();
                 }
             }
@@ -141,11 +149,13 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
 
     private void fletch(Rectangle knife, Rectangle log) {
         if (selecting()) {
+            status = "Selecting Make-X";
             Mouse.move(TYPE.bounds);
             if (GameMenu.selectIndex(3)) { // Make-X
                 Time.waitFor(2500, this::inputting);
             }
         } else if (inputting()) {
+            status = "Typing 99";
             Keyboard.send("99");
             if (Time.waitFor(2500, () -> !inputting())) {
                 final AtomicReference<Rectangle> lastSlot =
@@ -163,6 +173,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                 });
             }
         } else {
+            status = "Using items";
             Mouse.click(knife, true);
             Time.sleep(25, 50);
             Mouse.click(log, true);
@@ -188,6 +199,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
 
     private static final String RUNTIME_FORMAT = "RUNTIME - %s";
     private static final String FLETCHED_FORMAT = "FLETCHED - %s (%s/HR)";
+    private static final String STATUS_FORMAT = "STATUS - %s";
 
     @Override
     public void render(Graphics2D g) {
@@ -198,9 +210,11 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
         MousePaint.drawOval(g, MOUSE_OUTER, MOUSE_INNER);
         String runtime = Time.format(runtime());
         Text.drawRuneString(g, String.format(RUNTIME_FORMAT, runtime),
-                8, Viewport.height() - 15, Color.YELLOW);
+                8, Viewport.height() - 30, Color.YELLOW);
         int hourlyFletched = Time.hourly(runtime(), fletched);
         Text.drawRuneString(g, String.format(FLETCHED_FORMAT, fletched, hourlyFletched),
+                8, Viewport.height() - 15, Color.YELLOW);
+        Text.drawRuneString(g, String.format(STATUS_FORMAT, status.toUpperCase()),
                 8, Viewport.height(), Color.YELLOW);
     }
 
