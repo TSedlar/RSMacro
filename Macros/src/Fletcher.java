@@ -163,6 +163,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                         new AtomicReference<>(null);
                 Time.waitFor(60000, () -> {
                     if (leveled()) {
+                        status = "Leveled up";
                         return true;
                     }
                     Rectangle slot = Inventory.findSlot(LOG.model);
@@ -172,6 +173,7 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                     lastSlot.set(slot);
                     return slot == null;
                 });
+                status = "Finished fletching";
             }
         } else {
             status = "Using items";
