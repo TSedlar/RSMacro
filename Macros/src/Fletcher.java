@@ -19,8 +19,6 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Tyler Sedlar
  * @since 10/21/15
- *
- * TODO: fail-safe for opening grand-exchange collect
  */
 @Manifest(name = "Fletcher", author = "Tyler", description = "Fletches bows",
         version = "1.0.0", banks = false)
@@ -61,32 +59,38 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
     }
 
     private boolean setAngle = false;
+    
+    private void setStatus(String status) {
+        this.status = status;
+        System.out.println(status);
+    }
 
     @Override
     public int loop() {
         if (!setAngle && Math.abs(Minimap.angle() - TARGET_ANGLE) > 5) {
-            status = "Setting angle";
+            setStatus("Setting angle");
             setAngle = Camera.setAngle(TARGET_ANGLE);
         } else if (collecting()) {
-            status = "Closing collect";
+            setStatus("Closing collect");
             closeCollect();
         } else {
             if (Bank.viewing()) {
                 if (Inventory.findSlot(LOG.model) != null) {
-                    status = "Closing bank";
+                    setStatus("Closing bank");
                     Bank.close();
                 } else {
                     if (Inventory.count() > 1) {
-                        status = "Depositing items";
-                        Mouse.move(Inventory.SLOTS[Inventory.SLOTS.length - 1]);
+                        setStatus("Depositing items");
+                        int slotIndex = (Inventory.SLOTS.length - 1);
+                        Mouse.move(Inventory.SLOTS[slotIndex]);
                         if (GameMenu.selectIndex(4)) { // Deposit-All
-                            Time.waitFor(2500, () -> !Inventory.hasItem(1));
+                            Time.waitFor(2500, () -> !Inventory.hasItem(slotIndex));
                         }
                     } else {
-                        status = "Withdrawing items";
+                        setStatus("Withdrawing items");
                         Rectangle bounds = Bank.findSlot(LOG.model);
                         if (bounds == null) {
-                            System.err.println("You are out of logs.");
+                            System.out.println("You are out of logs.");
                             return -1;
                         }
                         Mouse.move(bounds);
@@ -98,15 +102,15 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
             } else {
                 Rectangle knife = Inventory.findSlot(KNIFE);
                 if (knife == null) {
-                    System.err.println("A knife is needed to fletch!");
+                    System.out.println("A knife is needed to fletch!");
                     return -1;
                 }
                 Rectangle log = Inventory.findSlot(LOG.model);
                 if (log != null) {
-                    status = "Fletching";
+                    setStatus("Fletching");
                     fletch(knife, log);
                 } else {
-                    status = "Opening bank";
+                    setStatus("Opening bank");
                     openBank();
                 }
             }
@@ -149,21 +153,21 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
 
     private void fletch(Rectangle knife, Rectangle log) {
         if (selecting()) {
-            status = "Selecting Make-X";
+            setStatus("Selecting Make-X");
             Mouse.move(TYPE.bounds);
             if (GameMenu.selectIndex(3)) { // Make-X
                 Time.waitFor(2500, this::inputting);
             }
         } else if (inputting()) {
-            status = "Typing 99";
+            setStatus("Typing 99");
             Keyboard.send("99");
             if (Time.waitFor(2500, () -> !inputting())) {
-                status = "Fletching bows";
+                setStatus("Fletching bows");
                 final AtomicReference<Rectangle> lastSlot =
                         new AtomicReference<>(null);
                 Time.waitFor(60000, () -> {
                     if (leveled()) {
-                        status = "Leveled up";
+                        setStatus("Leveled up");
                         return true;
                     }
                     Rectangle slot = Inventory.findSlot(LOG.model);
@@ -173,10 +177,10 @@ public class Fletcher extends Macro implements Renderable, PixelListener {
                     lastSlot.set(slot);
                     return slot == null;
                 });
-                status = "Finished fletching";
+                setStatus("Finished fletching");
             }
         } else {
-            status = "Using items";
+            setStatus("Using items");
             Mouse.click(knife, true);
             Time.sleep(25, 50);
             Mouse.click(log, true);

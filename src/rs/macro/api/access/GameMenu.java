@@ -102,7 +102,7 @@ public class GameMenu {
         if (!viewing()) {
             Mouse.click(false);
             Time.waitFor(Random.nextInt(500, 750), GameMenu::viewing);
-            Time.sleep(50, 100);
+            Time.sleep(200, 300);
         }
         Rectangle bounds = boundsFor(index);
         if (bounds != null) {
