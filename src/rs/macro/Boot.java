@@ -1,6 +1,7 @@
 package rs.macro;
 
 import rs.macro.util.Configuration;
+import rs.macro.util.OperatingSystem;
 import rs.macro.util.io.ResourceLoader;
 import rs.macro.util.io.Streams;
 
@@ -34,10 +35,12 @@ public class Boot {
                 Configuration.APPLICATION_NAME, null)
                 .flag("-Dsun.java2d.d3d=false")
                 .flag("-XX:SurvivorRatio=4")
-                .flag("-XX:+UseCompressedClassPointers")
-                .flag("-XX:+UseCompressedOops")
                 .flag("-XX:+UseParNewGC")
                 .flag("-XX:+UseConcMarkSweepGC");
+        if (OperatingSystem.get() != OperatingSystem.WINDOWS) {
+            exec = exec.flag("-XX:+UseCompressedClassPointers")
+                    .flag("-XX:+UseCompressedOops");
+        }
         for (String arg : args) {
             exec = exec.flag(arg);
         }
