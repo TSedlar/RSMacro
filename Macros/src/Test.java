@@ -1,6 +1,7 @@
 import rs.macro.api.Macro;
 import rs.macro.api.Manifest;
 import rs.macro.api.access.GameMenu;
+import rs.macro.api.access.Inventory;
 import rs.macro.api.access.input.Bezier;
 import rs.macro.api.access.input.Mouse;
 import rs.macro.api.access.minimap.Minimap;
@@ -44,7 +45,8 @@ public class Test extends Macro implements Renderable, PixelListener {
                 .all();
         this.points.clear();
         this.points.addAll(points);
-        System.out.println(PixelModel.fromPoints(points, 2));
+//        System.out.println(PixelModel.fromPoints(points, 2));
+        System.out.println(Inventory.createModelAt(1, 2));
         return 0;
     }
 
