@@ -61,7 +61,6 @@ public class Login extends RandomEvent implements Renderable {
         if (stage == -1) {
             return true;
         }
-        System.out.println("stage: " + stage + ", sent: " + sent);
         String user = CacheData.user();
         String pass = CacheData.pass();
         if (user == null || pass == null) {
