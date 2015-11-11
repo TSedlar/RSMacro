@@ -16,7 +16,7 @@ import java.awt.*;
  * @author Jacob Doiron
  * @since 10/25/2015
  */
-@RandomManifest(name = "Login Solver", author = "Jacob Doiron", version = "1.0.0")
+@RandomManifest(name = "Login Solver", author = "Jacob Doiron", version = "1.0.1")
 public class Login extends RandomEvent implements Renderable {
 
     private boolean sent;
@@ -58,15 +58,16 @@ public class Login extends RandomEvent implements Renderable {
     @Override
     public boolean solve() {
         int stage = stage();
+        if (stage == -1) {
+            return true;
+        }
+        System.out.println("stage: " + stage + ", sent: " + sent);
         String user = CacheData.user();
         String pass = CacheData.pass();
         if (user == null || pass == null) {
             CacheData.parseLogin();
             user = CacheData.user();
             pass = CacheData.pass();
-        }
-        if (stage == -1) {
-            return true;
         }
         if (stage == 0) {
             Mouse.click(CLICK_BOUNDS[0], true);
@@ -88,6 +89,13 @@ public class Login extends RandomEvent implements Renderable {
             return Time.waitFor(10000, RuneScape::playing);
         }
         return false;
+    }
+
+    @Override
+    public boolean atFinish() {
+        sent = false;
+        bounds = null;
+        return true;
     }
 
     @Override

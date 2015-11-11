@@ -9,7 +9,8 @@ import rs.macro.api.util.Renderable;
 import rs.macro.api.util.fx.Text;
 import rs.macro.internal.ui.MacroSelector;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class RandomHandler extends LoopTask implements Renderable {
     @Override
     public void atEnd() {
         for (RandomEvent random : events) {
+            random.atFinish();
             random.solving = false;
         }
     }

@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  */
 public class RuneScape {
 
-    public static final PixelModel LOGGED_IN_MODEL = PixelModel.fromString("#3D3833/10 #423C34/10/20/-13 #635443/10/39/-41 #4C443B/10/36/-89 #423C34/10/-17/0 #312D22/10/41/1 #2C2912/10/72/-137");
+    public static final PixelModel LOGGED_IN_MODEL = PixelModel.fromString("#BFB490/10 #BFB490/10/8/4");
 
     private static final PixelTask pixelTask = new PixelTask();
 
@@ -77,7 +77,7 @@ public class RuneScape {
     public static boolean playing() {
         return pixels().operator().builder()
                 .model(LOGGED_IN_MODEL)
-                .bounds(654, 3, 108, 166)
+                .bounds(509, 14, 40, 41)
                 .query().count() > 0;
     }
 

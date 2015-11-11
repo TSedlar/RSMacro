@@ -23,6 +23,13 @@ public abstract class RandomEvent {
     public abstract boolean solve();
 
     /**
+     * Finishes up the random handler's necessary steps.
+     *
+     * @return <t>true</t> if the event was solved and finished its finish method; otherwise, <t>false</t>.
+     */
+    public abstract boolean atFinish();
+
+    /**
      * Checks whether the RandomEvent is being solved or not.
      *
      * @return <t>true</t> if the RandomEvent is being solved, otherwise <t>false</t>.
