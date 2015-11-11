@@ -125,10 +125,35 @@ public class Bank {
      * Finds a slot matching the given PixelModel.
      *
      * @param model The model to search for.
+     * @param reverse The order to search in.
+     * @return A slot matching the given PixelModel.
+     */
+    public static Rectangle findSlot(PixelModel model, boolean reverse) {
+        return Slots.findSlot(SLOTS, model, reverse);
+    }
+
+    /**
+     * Finds a slot matching the given PixelModel.
+     *
+     * @param model The model to search for.
      * @return A slot matching the given PixelModel.
      */
     public static Rectangle findSlot(PixelModel model) {
-        return Slots.findSlot(SLOTS, model);
+        return findSlot(model, false);
+    }
+
+    /**
+     * Finds the last slot with an item in it.
+     *
+     * @return The last slot with an item in it.
+     */
+    public static Rectangle findLastValidSlot() {
+        for (int i = (SLOTS.length - 1); i > 0; i--) {
+            if (hasItem(i)) {
+                return SLOTS[i];
+            }
+        }
+        return null;
     }
 
     /**

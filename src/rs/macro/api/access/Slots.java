@@ -74,9 +74,10 @@ public class Slots {
      *
      * @param slots The slots to check.
      * @param model The model to search for.
+     * @param reverse The order to search in.
      * @return A slot matching the given PixelModel.
      */
-    public static Rectangle findSlot(Rectangle[] slots, PixelModel model) {
+    public static Rectangle findSlot(Rectangle[] slots, PixelModel model, boolean reverse) {
         Point match = RuneScape.pixels().operator().builder()
                 .filterLocation((x, y) -> {
                     for (Rectangle slot : slots) {
@@ -91,12 +92,26 @@ public class Slots {
         if (match == null) {
             return null;
         }
-        for (Rectangle slot : slots) {
+        int offsetter = (reverse ? -1 : 1);
+        for (int i = (reverse ? slots.length - 1 : 0); (reverse ? i > 0 : i < slots.length);
+             i += offsetter) {
+            Rectangle slot = slots[i];
             if (slot.contains(match)) {
                 return slot;
             }
         }
         return null;
+    }
+
+    /**
+     * Finds a slot matching the given PixelModel.
+     *
+     * @param slots The slots to check.
+     * @param model The model to search for.
+     * @return A slot matching the given PixelModel.
+     */
+    public static Rectangle findSlot(Rectangle[] slots, PixelModel model) {
+        return findSlot(slots, model, false);
     }
 
     /**

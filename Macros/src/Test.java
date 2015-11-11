@@ -39,15 +39,8 @@ public class Test extends Macro implements Renderable, PixelListener {
 
     @Override
     public int loop() {
-        List<Point> points = operator().builder()
-                .bounds(208, 56, 103, 18)
-                .tolFilter(Colors.hexToRGB("#FF981F"), 2)
-                .all();
-        this.points.clear();
-        this.points.addAll(points);
-//        System.out.println(PixelModel.fromPoints(points, 2));
-        System.out.println(Inventory.createModelAt(1, 2));
-        return 0;
+        System.out.println(Inventory.createModelAt(1, 10));
+        return 1000;
     }
 
     @Override
