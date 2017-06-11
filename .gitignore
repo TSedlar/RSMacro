@@ -1,4 +1,5 @@
 *.iml
+test/
 
 ## Directory-based project format:
 .idea/
