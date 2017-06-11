@@ -139,6 +139,7 @@ public class RSMacro extends JFrame implements Runnable {
             throw new RuntimeException("Corrupt classloader");
         }
         Applet applet = crawler.start(classloader);
+        applet.setSize(GameCanvas.GAME_SIZE);
         add(applet);
         pack();
         setMinimumSize(getSize());

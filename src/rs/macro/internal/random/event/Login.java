@@ -52,7 +52,7 @@ public class Login extends RandomEvent implements Renderable {
 
     @Override
     public boolean activate() {
-        return !RuneScape.playing();
+        return false;//!RuneScape.playing();
     }
 
     @Override
