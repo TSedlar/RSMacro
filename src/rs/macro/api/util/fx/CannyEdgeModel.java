@@ -5,9 +5,13 @@ import rs.macro.api.util.fx.model.PixelModel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author Tyler Sedlar
@@ -102,5 +106,44 @@ public class CannyEdgeModel {
             }
         }
         return pixels.isEmpty() ? Optional.empty() : Optional.of((model = PixelModel.fromList(pixels)));
+    }
+
+    /**
+     * Checks if this model matches the given polygon with a variance of the given similarity.
+     *
+     * @param poly       The polygon to match.
+     * @param similarity The similarity variance.
+     * @return <tt>true</tt> if the polygon matches, otherwise <tt>false</tt>.
+     */
+    public boolean matchesEMF(Polygon poly, double similarity) {
+        AtomicBoolean matches = new AtomicBoolean(false);
+        toPixelModel().ifPresent(model -> matches.set(
+                PolyTool.similarity(poly, model.toPolygon()) >= similarity
+        ));
+        return matches.get();
+    }
+
+    /**
+     * Loads the given file into a Polygon object.
+     *
+     * @param file The file to load.
+     * @return A polygon from the given file.
+     */
+    public static Optional<Polygon> loadPolyEMF(File file) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            return Optional.of((Polygon) ois.readObject());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Loads the given file into a Polygon object.
+     *
+     * @param file The file to load.
+     * @return A polygon from the given file.
+     */
+    public static Optional<Polygon> loadPolyEMF(String file) {
+        return loadPolyEMF(new File(file));
     }
 }

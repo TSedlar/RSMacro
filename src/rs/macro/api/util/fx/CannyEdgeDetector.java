@@ -98,8 +98,8 @@ public class CannyEdgeDetector {
         INSTANCE.setGaussianKernelRadius(kernelRadius);
         INSTANCE.setGaussianKernelWidth(kernelWidth);
         INSTANCE.setContrastNormalized(contrastNormalized);
-        INSTANCE.process();
-        return new CannyEdgeModel(INSTANCE.width, INSTANCE.height, INSTANCE.data);
+        int[] data = INSTANCE.process();
+        return new CannyEdgeModel(INSTANCE.width, INSTANCE.height, data.clone());
     }
 
     /**
@@ -288,7 +288,7 @@ public class CannyEdgeDetector {
 
     // methods
 
-    public void process() {
+    public int[] process() {
         width = sourceImage.getWidth();
         height = sourceImage.getHeight();
         picsize = width * height;
@@ -300,7 +300,7 @@ public class CannyEdgeDetector {
         int high = Math.round(highThreshold * MAGNITUDE_SCALE);
         performHysteresis(low, high);
         thresholdEdges();
-        writeEdges(data);
+        return data;
     }
 
     // private utility methods
@@ -591,15 +591,5 @@ public class CannyEdgeDetector {
         for (int i = 0; i < data.length; i++) {
             data[i] = remap[data[i]];
         }
-    }
-
-    private void writeEdges(int pixels[]) {
-        //NOTE: There is currently no mechanism for obtaining the edge data
-        //in any other format other than an INT_ARGB type BufferedImage.
-        //This may be easily remedied by providing alternative accessors.
-        if (edgesImage == null) {
-            edgesImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        }
-        edgesImage.getWritableTile(0, 0).setDataElements(0, 0, width, height, pixels);
     }
 }

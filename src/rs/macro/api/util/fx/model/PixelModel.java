@@ -76,6 +76,20 @@ public class PixelModel {
         return fromList(pixels);
     }
 
+    /**
+     * Morphs this PixelModel into a Polygon.
+     *
+     * @return A Polygon for this PixelModel.
+     */
+    public Polygon toPolygon() {
+        Polygon poly = new Polygon();
+        poly.addPoint(0, 0);
+        for (Pixel pixel : pixels) {
+            poly.addPoint(pixel.xOff, pixel.yOff);
+        }
+        return poly;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(root.toString());
