@@ -9,12 +9,18 @@ import java.awt.image.BufferedImage;
  */
 public class PolyTool {
 
-    public static void drawPolyAt(Graphics2D g, Polygon poly, int x, int y) {
+    public static Polygon translate(Polygon poly, int x, int y) {
+        Polygon translated = new Polygon();
         for (int n = 0; n < poly.npoints; n++) {
             int px = (x + poly.xpoints[n]);
             int py = (y + poly.ypoints[n]);
-            g.drawLine(px, py, px, py);
+            translated.addPoint(px, py);
         }
+        return translated;
+    }
+
+    public static void drawPolyAt(Graphics2D g, Polygon poly, int x, int y) {
+        g.draw(translate(poly, x, y));
     }
 
     public static BufferedImage toImage(Polygon poly) throws Exception {

@@ -2,6 +2,7 @@ package rs.macro.api.util.fx;
 
 import rs.macro.api.util.Imaging;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -47,6 +48,36 @@ public class PixelOperator {
      */
     public int at(int x, int y) {
         return Imaging.argbAt(image, pixels, x, y);
+    }
+
+    /**
+     * Gets the pixels within the given region.
+     *
+     * @param rx The x-coordinate.
+     * @param ry The y-coordinate.
+     * @param rw The width.
+     * @param rh THe Height.
+     * @return The pixels within the given region.
+     */
+    public int[] subPixels(int rx, int ry, int rw, int rh) {
+        int[] subPixels = new int[rw * rh];
+        for (int x = rx; x < rx + rw; x++) {
+            for (int y = ry; y < ry + rh; y++) {
+                int index = (x - rx) + (y - ry) * rw;
+                subPixels[index] = Imaging.argbAt(image, pixels, x, y);
+            }
+        }
+        return subPixels;
+    }
+
+    /**
+     * Gets the pixels within the given region.
+     *
+     * @param bounds The region to search within.
+     * @return The pixels within the given region.
+     */
+    public int[] subPixels(Rectangle bounds) {
+        return subPixels(bounds.x, bounds.y, bounds.width, bounds.height);
     }
 
     /**

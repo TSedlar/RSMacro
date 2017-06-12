@@ -1,6 +1,10 @@
 package rs.macro.api.util.fx;
 
+import rs.macro.api.util.Imaging;
+import rs.macro.api.util.filter.Filter;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * @author Tyler Sedlar
@@ -127,22 +131,36 @@ public class Colors {
     /**
      * Obtains the median color from the given array of pixels.
      *
+     * @param pixels    The pixels to find the median for.
+     * @param rgbFilter A filter used to check valid pixels to count.
+     * @return The median color from the given array of pixels.
+     */
+    public static int median(int[] pixels, Filter<Integer> rgbFilter) {
+        int sumr = 0;
+        int sumg = 0;
+        int sumb = 0;
+        int len = 0;
+        for (int rgb : pixels) {
+            if (rgbFilter.accept(rgb)) {
+                sumr += Colors.red(rgb);
+                sumg += Colors.green(rgb);
+                sumb += Colors.blue(rgb);
+                len++;
+            }
+        }
+        if (len == 0) {
+            return Color.BLACK.getRGB();
+        }
+        return (((sumr / len) << 16) | ((sumg / len) << 8) | ((sumb / len)));
+    }
+
+    /**
+     * Obtains the median color from the given array of pixels.
+     *
      * @param pixels The pixels to find the median for.
      * @return The median color from the given array of pixels.
      */
     public static int median(int[] pixels) {
-        int area = pixels.length;
-        int alpha = 0;
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-        for (int rgb : pixels) {
-            alpha += ((rgb >> 24) & 0xFF);
-            red += ((rgb) & 0xFF);
-            green += ((rgb >> 8) & 0xFF);
-            blue += ((rgb >> 16) & 0xFF);
-        }
-        return (((alpha / area) << 24) | ((red / area) << 16) | ((green / area) << 8) |
-                ((blue / area)));
+        return median(pixels, rgb -> true);
     }
 }

@@ -24,35 +24,16 @@ public class CannyTest extends Macro implements Renderable {
     private Map<Rectangle, CannyEdgeModel> slots = new ConcurrentHashMap<>();
     private Map<Rectangle, Color> medians = new ConcurrentHashMap<>();
 
+    private Polygon cabbage;
+
     private CannyEdgeModel modelOf(Rectangle bounds) {
         BufferedImage subImg = RuneScape.image().getSubimage(bounds.x, bounds.y, bounds.width, bounds.height);
         return CannyEdgeDetector.model(subImg, 2.5F, 7.5F, 0.5F, 32);
     }
 
-    private Polygon cabbage;
-
     private Color median(Rectangle bounds) {
-        int sumr = 0;
-        int sumg = 0;
-        int sumb = 0;
-        int len = 0;
-        for (int x = bounds.x; x < bounds.x + bounds.width ;x++) {
-            for (int y = bounds.y; y < bounds.y + bounds.height; y++) {
-                int rgb = RuneScape.rgbAt(x, y);
-                if (Colors.tolerance(rgb, Slots.INV_BACKGROUND_RGB) > 15) {
-//                    rgb = Palettes.selectFromPalette8(rgb);
-                    sumr += Colors.red(rgb);
-                    sumg += Colors.green(rgb);
-                    sumb += Colors.blue(rgb);
-                    len++;
-                }
-            }
-        }
-        if (len == 0) {
-            return Color.BLACK;
-        } else {
-            return new Color(sumr / len, sumg / len, sumb / len);
-        }
+        int[] pixels = operator().subPixels(bounds);
+        return new Color(Colors.median(pixels, rgb -> Colors.tolerance(rgb, Slots.INV_BACKGROUND_RGB) > 15));
     }
 
     @Override
@@ -68,12 +49,12 @@ public class CannyTest extends Macro implements Renderable {
         long start = System.nanoTime();
         for (Rectangle slot : Inventory.SLOTS) {
             CannyEdgeModel model = modelOf(slot);
-//            slots.put(slot, model);
-//            medians.put(slot, median(slot));
-            if (model.matchesEMF(cabbage, 0.95D)) {
-                slots.put(slot, model);
-                medians.put(slot, median(slot));
-            }
+            slots.put(slot, model);
+            medians.put(slot, median(slot));
+//            if (model.matchesEMF(cabbage, 0.95D)) {
+//                slots.put(slot, model);
+//                medians.put(slot, median(slot));
+//            }
         }
         long end = System.nanoTime();
         System.out.printf("Found cabbage in %.02f seconds\n", (end - start) / 1e9);
@@ -93,9 +74,11 @@ public class CannyTest extends Macro implements Renderable {
                 model.toPixelModel().ifPresent(pixels -> {
                     g.setColor(Color.BLACK);
                     g.fill(slot);
-                    Polygon poly = pixels.toPolygon();
+                    Polygon poly = PolyTool.translate(pixels.toPolygon(), slot.x + start.x, slot.y + start.y);
                     g.setColor(medians.get(slot));
-                    PolyTool.drawPolyAt(g, poly, slot.x + start.x, slot.y + start.y);
+                    for (int n = 0; n < poly.npoints; n++) {
+                        g.drawLine(poly.xpoints[n], poly.ypoints[n], poly.xpoints[n], poly.ypoints[n]);
+                    }
                 });
             }
         });
